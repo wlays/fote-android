@@ -1,0 +1,51 @@
+package com.lays.fote.adapters;
+
+import java.util.ArrayList;
+
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+
+import com.actionbarsherlock.app.SherlockListActivity;
+import com.lays.fote.R;
+import com.lays.fote.holders.FoteViewHolder;
+import com.lays.fote.models.Fote;
+
+public class FoteListAdapter extends ArrayAdapter<Fote> {
+
+	/** XML layout inflater */
+	private static LayoutInflater inflater;
+
+	/** List of our mArticles objects */
+	private ArrayList<Fote> mFotes;
+
+	public FoteListAdapter(SherlockListActivity activity, ArrayList<Fote> fotes) {
+		super(activity, R.layout.list_row_fote, fotes);
+		inflater = activity.getLayoutInflater();
+		mFotes = fotes;
+	}
+
+	@Override
+	public View getView(int position, View convertView, ViewGroup parent) {
+		View row = convertView;
+
+		if (row == null) {
+			row = inflater.inflate(R.layout.list_row_fote, parent, false);
+		}
+
+		FoteViewHolder holder = (FoteViewHolder) row.getTag();
+
+		if (holder == null) {
+			holder = new FoteViewHolder(row);
+			row.setTag(holder);
+		}
+
+		Fote fote = mFotes.get(position);
+		holder.getDate().setText(Long.toString(fote.getDate()));
+		holder.getAmount().setText(Integer.toString(fote.getAmount()));
+		holder.getComment().setText(fote.getComment());
+
+		return row;
+	}
+}
