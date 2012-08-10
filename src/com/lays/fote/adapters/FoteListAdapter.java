@@ -11,6 +11,7 @@ import com.actionbarsherlock.app.SherlockListActivity;
 import com.lays.fote.R;
 import com.lays.fote.holders.FoteViewHolder;
 import com.lays.fote.models.Fote;
+import com.lays.fote.utilities.FoteCalendar;
 
 public class FoteListAdapter extends ArrayAdapter<Fote> {
 
@@ -42,7 +43,8 @@ public class FoteListAdapter extends ArrayAdapter<Fote> {
 		}
 
 		Fote fote = mFotes.get(position);
-		holder.getDate().setText(Long.toString(fote.getDate()));
+		FoteCalendar date = new FoteCalendar(fote.getDate());
+		holder.getDate().setText(date.getFullDate());
 		holder.getAmount().setText(Integer.toString(fote.getAmount()));
 		holder.getComment().setText(fote.getComment());
 

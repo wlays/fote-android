@@ -7,7 +7,7 @@ import android.net.NetworkInfo;
 import android.os.StrictMode;
 import android.util.Log;
 
-import com.lays.fote.helpers.DatabaseHelper;
+import com.lays.fote.database.Database;
 
 public class FoteApplication extends Application {
 
@@ -15,7 +15,7 @@ public class FoteApplication extends Application {
 
 	public static final boolean DEVELOPER_MODE = true;
 
-	private static DatabaseHelper database;
+	private static Database database;
 
 	public void onCreate() {
 		if (DEVELOPER_MODE) {
@@ -24,10 +24,10 @@ public class FoteApplication extends Application {
 		super.onCreate();
 		// Initialize global variables here
 		Log.i(TAG, "Fote Application starting...");
-		database = new DatabaseHelper(this);
+		database = new Database(this);
 	}
 
-	public DatabaseHelper getDatabaseHelper() {
+	public Database getDatabaseHelper() {
 		return database;
 	}
 

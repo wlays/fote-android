@@ -37,11 +37,11 @@ public class FoteCalendar extends GregorianCalendar {
 	}
 
 	public FoteCalendar(long milliseconds) {
-		setTimeInMillis(milliseconds * 1000L);
+		setTimeInMillis(milliseconds);
 	}
 
-	public String getDay() {
-		return "" + get(Calendar.DAY_OF_MONTH);
+	public FoteCalendar(int year, int month, int day) {
+		super(year, month, day);
 	}
 
 	public String getHourWithNotation() {
@@ -52,7 +52,40 @@ public class FoteCalendar extends GregorianCalendar {
 		}
 	}
 
+	public String getDay() {
+		return "" + get(Calendar.DAY_OF_MONTH);
+	}
+
+	public static String dayNameOfWeek(int dayOfWeek) {
+		switch (dayOfWeek) {
+		case 1:
+			return "Sunday";
+		case 2:
+			return "Monday";
+		case 3:
+			return "Tuesday";
+		case 4:
+			return "Wednesday";
+		case 5:
+			return "Thursday";
+		case 6:
+			return "Friday";
+		case 7:
+			return "Saturday";
+		default:
+			return null;
+		}
+	}
+
+	public String getYear() {
+		return "" + get(Calendar.YEAR);
+	}
+
 	public String getMonth() {
+		return "" + (get(Calendar.MONTH) + 1);
+	}
+
+	public String getMonthName() {
 		switch (get(Calendar.MONTH)) {
 		case 0:
 			return "January";
@@ -83,24 +116,15 @@ public class FoteCalendar extends GregorianCalendar {
 		}
 	}
 
-	public static String dayNameOfWeek(int dayOfWeek) {
-		switch (dayOfWeek) {
-		case 1:
-			return "Sunday";
-		case 2:
-			return "Monday";
-		case 3:
-			return "Tuesday";
-		case 4:
-			return "Wednesday";
-		case 5:
-			return "Thursday";
-		case 6:
-			return "Friday";
-		case 7:
-			return "Saturday";
-		default:
-			return null;
-		}
+	public String getFullDate() {
+		return getDay() + " " + getMonthName() + " " + getYear();
+	}
+
+	public String getShortenedDateAmerican() {
+		return getMonth() + "/" + getDay() + "/" + getYear();
+	}
+
+	public String getShortenedDateBritish() {
+		return getDay() + "/" + getMonth() + "/" + getYear();
 	}
 }

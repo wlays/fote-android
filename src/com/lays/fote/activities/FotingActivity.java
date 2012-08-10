@@ -1,7 +1,5 @@
 package com.lays.fote.activities;
 
-import java.util.Date;
-
 import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -15,11 +13,10 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
-import com.lays.fote.FoteApplication;
 import com.lays.fote.R;
+import com.lays.fote.database.FoteDataSource;
 import com.lays.fote.fragments.DatePickerFragment;
-import com.lays.fote.helpers.DatabaseHelper;
-import com.lays.fote.models.Fote;
+import com.lays.fote.utilities.FoteCalendar;
 
 /**
  * Activity lets user create a Fote and saves it to the database.
@@ -38,15 +35,16 @@ public class FotingActivity extends SherlockFragmentActivity {
 	private Button date;
 
 	/** Timestamp variable for listener */
-	private long foteTimestamp;
+	private FoteCalendar foteDate;
 
 	/** Listener for the DatePickerDialog in DatePickerFragment */
 	private final DatePickerDialog.OnDateSetListener datePickerListener = new DatePickerDialog.OnDateSetListener() {
 		@Override
 		public void onDateSet(DatePicker view, int year, int month, int day) {
-			date.setText(month + "/" + day + "/" + year);
-			foteTimestamp = new Date().getTime();
-			date.setText(Long.toString(foteTimestamp));
+			foteDate = new FoteCalendar(year, month, day);
+			date.setText(foteDate.getShortenedDateAmerican());
+			// Log.i(TAG, "Full date: " + foteDate.getFullDate());
+			// Log.i(TAG, "Timestamp saved: " + foteDate.getTimeInMillis());
 		}
 	};
 
@@ -57,6 +55,12 @@ public class FotingActivity extends SherlockFragmentActivity {
 		amount = (EditText) findViewById(R.id.fote_amount);
 		comment = (EditText) findViewById(R.id.fote_comment);
 		date = (Button) findViewById(R.id.fote_date);
+	}
+
+	@Override
+	public void onBackPressed() {
+		super.onBackPressed();
+		overridePendingTransition(R.anim.slide_left_incoming, R.anim.slide_left_outgoing);
 	}
 
 	@Override
@@ -72,6 +76,7 @@ public class FotingActivity extends SherlockFragmentActivity {
 		case R.id.menu_cancel:
 			Log.i(TAG, "Fote creation cancelled");
 			finish();
+			overridePendingTransition(R.anim.slide_left_incoming, R.anim.slide_left_outgoing);
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);
@@ -99,9 +104,7 @@ public class FotingActivity extends SherlockFragmentActivity {
 
 		// TODO: Fote validations here...
 
-		// TODO: Move db.createFote to model
-		DatabaseHelper db = ((FoteApplication) getApplication()).getDatabaseHelper();
-		db.createFote(new Fote(foteAmount, foteComment, foteTimestamp));
+		(new FoteDataSource(this)).createFote(foteAmount, foteComment, foteDate.getTimeInMillis());
 		finish();
 	}
 }

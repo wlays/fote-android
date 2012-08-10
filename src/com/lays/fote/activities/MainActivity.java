@@ -4,8 +4,12 @@ import java.util.ArrayList;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
@@ -16,17 +20,15 @@ import com.actionbarsherlock.app.SherlockListActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
-import com.lays.fote.FoteApplication;
 import com.lays.fote.R;
 import com.lays.fote.adapters.FoteListAdapter;
-import com.lays.fote.helpers.DatabaseHelper;
+import com.lays.fote.database.FoteDataSource;
 import com.lays.fote.models.Fote;
 
 public class MainActivity extends SherlockListActivity {
 
 	private static final String TAG = MainActivity.class.toString();
 	private Spinner spinner;
-	private DatabaseHelper mDatabase;
 	private ArrayList<Fote> mFotes;
 	private FoteListAdapter mAdapter;
 
@@ -55,10 +57,8 @@ public class MainActivity extends SherlockListActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		initSpinner();
-		mDatabase = ((FoteApplication) getApplication()).getDatabaseHelper();
-		mFotes = mDatabase.fetchAllNotes();
-		mAdapter = new FoteListAdapter(this, mFotes);
-		setListAdapter(mAdapter);
+		initListAdapter();
+		registerForContextMenu(getListView());
 		getListView().setOnItemClickListener(listener);
 	}
 
@@ -66,10 +66,24 @@ public class MainActivity extends SherlockListActivity {
 	public void onWindowFocusChanged(boolean hasFocus) {
 		super.onWindowFocusChanged(hasFocus);
 		if (hasFocus) {
-			mFotes = mDatabase.fetchAllNotes();
-			mAdapter = new FoteListAdapter(this, mFotes);
-			setListAdapter(mAdapter);
+			initListAdapter();
 		}
+	}
+
+	private void initSpinner() {
+		spinner = (Spinner) findViewById(R.id.spinner);
+		spinner.setOnItemSelectedListener(spinnerListener);
+		final String[] items = { "", "Most recent", "Most expensive" };
+		ArrayAdapter<String> aa = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, items);
+		aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		spinner.setAdapter(aa);
+	}
+
+	private void initListAdapter() {
+		mFotes = (ArrayList<Fote>) (new FoteDataSource(this)).fetchAllNotes();
+		mAdapter = new FoteListAdapter(this, mFotes);
+		setListAdapter(mAdapter);
+		getListView().setSelection(mAdapter.getCount());
 	}
 
 	@Override
@@ -84,6 +98,7 @@ public class MainActivity extends SherlockListActivity {
 		switch (item.getItemId()) {
 		case R.id.menu_add_fote:
 			startActivity(new Intent(this, FotingActivity.class));
+			overridePendingTransition(R.anim.slide_right_incoming, R.anim.slide_right_outgoing);
 			return true;
 		case R.id.menu_see_list:
 			Toast.makeText(this, "Saw big list bro...", Toast.LENGTH_SHORT).show();
@@ -96,12 +111,27 @@ public class MainActivity extends SherlockListActivity {
 		}
 	}
 
-	private void initSpinner() {
-		spinner = (Spinner) findViewById(R.id.spinner);
-		spinner.setOnItemSelectedListener(spinnerListener);
-		final String[] items = { "", "Most recent", "Most expensive" };
-		ArrayAdapter<String> aa = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, items);
-		aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		spinner.setAdapter(aa);
+	@Override
+	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
+		super.onCreateContextMenu(menu, v, menuInfo);
+		android.view.MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.context_menu, menu);
+	}
+
+	public boolean onContextItemSelected(android.view.MenuItem item) {
+		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
+		switch (item.getItemId()) {
+		case R.id.context_edit:
+			Log.i(TAG, "Edited item: " + info.position);
+			return true;
+		case R.id.context_share:
+			Log.i(TAG, "Shared item: " + info.position);
+			return true;
+		case R.id.context_delete:
+			Log.i(TAG, "Deleted item: " + info.position);
+			return true;
+		default:
+			return super.onContextItemSelected(item);
+		}
 	}
 }
