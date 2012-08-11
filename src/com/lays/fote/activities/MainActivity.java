@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.View;
@@ -14,6 +13,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockListActivity;
@@ -27,8 +27,10 @@ import com.lays.fote.models.Fote;
 
 public class MainActivity extends SherlockListActivity {
 
-	private static final String TAG = MainActivity.class.toString();
+	private static final String TAG = MainActivity.class.getSimpleName();
 	private Spinner spinner;
+	private TextView monthYearView;
+	private TextView totalSpendingView;
 	private ArrayList<Fote> mFotes;
 	private FoteListAdapter mAdapter;
 
@@ -57,6 +59,8 @@ public class MainActivity extends SherlockListActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		initSpinner();
+		monthYearView = (TextView) findViewById(R.id.current_month_year);
+		totalSpendingView = (TextView) findViewById(R.id.total_spending_header);
 		initListAdapter();
 		registerForContextMenu(getListView());
 		getListView().setOnItemClickListener(listener);
@@ -73,7 +77,7 @@ public class MainActivity extends SherlockListActivity {
 	private void initSpinner() {
 		spinner = (Spinner) findViewById(R.id.spinner);
 		spinner.setOnItemSelectedListener(spinnerListener);
-		final String[] items = { "", "Most recent", "Most expensive" };
+		final String[] items = { "Most Recent", "Most Expensive" };
 		ArrayAdapter<String> aa = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, items);
 		aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		spinner.setAdapter(aa);
@@ -122,16 +126,28 @@ public class MainActivity extends SherlockListActivity {
 		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
 		switch (item.getItemId()) {
 		case R.id.context_edit:
-			Log.i(TAG, "Edited item: " + info.position);
+			editFote(mFotes.get(info.position));
 			return true;
 		case R.id.context_share:
-			Log.i(TAG, "Shared item: " + info.position);
+			shareFote(mFotes.get(info.position));
 			return true;
 		case R.id.context_delete:
-			Log.i(TAG, "Deleted item: " + info.position);
+			deleteFote(mFotes.get(info.position));
 			return true;
 		default:
 			return super.onContextItemSelected(item);
 		}
+	}
+
+	private void editFote(Fote fote) {
+		// TODO: implementation
+	}
+
+	private void shareFote(Fote fote) {
+		// TODO: implementation
+	}
+
+	private void deleteFote(Fote fote) {
+		// TODO: implementation
 	}
 }

@@ -42,7 +42,7 @@ public class FoteDataSource {
 	 * @param date
 	 * @return long rowID or -1 if failed
 	 */
-	public long createFote(int amount, String comment, long date) {
+	public long createFote(float amount, String comment, long date) {
 		open();
 		ContentValues cv = new ContentValues();
 		cv.put(Database.COLUMN_FOTE_AMOUNT, amount);
@@ -72,7 +72,7 @@ public class FoteDataSource {
 		Cursor result = database.query(Database.TABLE_FOTE, new String[] { Database.COLUMN_FOTE_ID, Database.COLUMN_FOTE_AMOUNT, Database.COLUMN_FOTE_COMMENT, Database.COLUMN_FOTE_DATE }, null, null, null, null, Database.COLUMN_FOTE_DATE);
 		if (result.moveToFirst()) {
 			while (!result.isAfterLast()) {
-				Fote fote = new Fote(result.getInt(0), result.getInt(1), result.getString(2), result.getLong(3));
+				Fote fote = new Fote(result.getInt(0), result.getFloat(1), result.getString(2), result.getLong(3));
 				// Log.i(TAG, "Amount: " + fote.getAmount() + " Comment: " +
 				// fote.getComment() + " Date: " + fote.getDate());
 				fotes.add(fote);

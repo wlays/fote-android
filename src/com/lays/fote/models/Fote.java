@@ -3,11 +3,11 @@ package com.lays.fote.models;
 public class Fote {
 
 	private long id;
-	private int amount;
+	private float amount;
 	private String comment;
 	private long date;
 
-	public Fote(long mId, int amt, String cmt, long dte) {
+	public Fote(long mId, float amt, String cmt, long dte) {
 		id = mId;
 		amount = amt;
 		comment = cmt;
@@ -22,7 +22,7 @@ public class Fote {
 		this.id = id;
 	}
 
-	public int getAmount() {
+	public float getAmount() {
 		return amount;
 	}
 

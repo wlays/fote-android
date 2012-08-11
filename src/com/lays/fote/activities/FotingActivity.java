@@ -3,11 +3,13 @@ package com.lays.fote.activities;
 import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.text.InputFilter;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
@@ -16,6 +18,7 @@ import com.actionbarsherlock.view.MenuItem;
 import com.lays.fote.R;
 import com.lays.fote.database.FoteDataSource;
 import com.lays.fote.fragments.DatePickerFragment;
+import com.lays.fote.utilities.DecimalDigitsInputFilter;
 import com.lays.fote.utilities.FoteCalendar;
 
 /**
@@ -42,7 +45,7 @@ public class FotingActivity extends SherlockFragmentActivity {
 		@Override
 		public void onDateSet(DatePicker view, int year, int month, int day) {
 			foteDate = new FoteCalendar(year, month, day);
-			date.setText(foteDate.getShortenedDateAmerican());
+			date.setText(foteDate.getFullDate());
 			// Log.i(TAG, "Full date: " + foteDate.getFullDate());
 			// Log.i(TAG, "Timestamp saved: " + foteDate.getTimeInMillis());
 		}
@@ -53,8 +56,10 @@ public class FotingActivity extends SherlockFragmentActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_foting);
 		amount = (EditText) findViewById(R.id.fote_amount);
+		amount.setFilters(new InputFilter[] { new DecimalDigitsInputFilter(6, 2) });
 		comment = (EditText) findViewById(R.id.fote_comment);
 		date = (Button) findViewById(R.id.fote_date);
+		foteDate = null;
 	}
 
 	@Override
@@ -99,10 +104,31 @@ public class FotingActivity extends SherlockFragmentActivity {
 	 * @param v
 	 */
 	public void createFote(View v) {
-		int foteAmount = Integer.parseInt(amount.getText().toString());
-		String foteComment = comment.getText().toString();
+		String total = amount.getText().toString();
+		// check if string is empty
+		if (total.equals("")) {
+			Toast.makeText(this, "Amount can't be empty", Toast.LENGTH_SHORT).show();
+			return;
+		}
+		float foteAmount = Float.parseFloat(total);
+		// check if amount is invalid like zero
+		if (foteAmount == 0) {
+			Toast.makeText(this, "Amount can't be zero", Toast.LENGTH_SHORT).show();
+			return;
+		}
 
-		// TODO: Fote validations here...
+		String foteComment = comment.getText().toString();
+		// check if string is empty
+		if (foteComment.equals("")) {
+			Toast.makeText(this, "Description can't be empty", Toast.LENGTH_SHORT).show();
+			return;
+		}
+
+		// check if foteDate == null
+		if (foteDate == null) {
+			Toast.makeText(this, "Date isn't set", Toast.LENGTH_SHORT).show();
+			return;
+		}
 
 		(new FoteDataSource(this)).createFote(foteAmount, foteComment, foteDate.getTimeInMillis());
 		finish();
