@@ -2,6 +2,9 @@ package com.lays.fote.activities;
 
 import java.util.ArrayList;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.ContextMenu;
@@ -20,6 +23,7 @@ import com.actionbarsherlock.app.SherlockListActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
+import com.lays.fote.FoteApplication;
 import com.lays.fote.R;
 import com.lays.fote.adapters.FoteListAdapter;
 import com.lays.fote.database.FoteDataSource;
@@ -37,7 +41,11 @@ public class MainActivity extends SherlockListActivity {
 	/** Fote list's listener */
 	private OnItemClickListener listener = new OnItemClickListener() {
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-			Toast.makeText(MainActivity.this, "Clicked " + position, Toast.LENGTH_SHORT).show();
+			long foteID = mFotes.get(position).getId();
+			Intent intent = new Intent(MainActivity.this, EditingFoteActivity.class);
+			intent.putExtra(FoteApplication.FOTE_KEY, foteID);
+			startActivity(intent);
+			overridePendingTransition(R.anim.slide_right_incoming, R.anim.slide_right_outgoing);
 		}
 	};
 
@@ -45,12 +53,12 @@ public class MainActivity extends SherlockListActivity {
 	private OnItemSelectedListener spinnerListener = new OnItemSelectedListener() {
 		@Override
 		public void onItemSelected(AdapterView<?> parent, View v, int position, long id) {
-			// TODO do something
+			// TODO do something to sort
 		}
 
 		@Override
 		public void onNothingSelected(AdapterView<?> parent) {
-			// TODO do something
+			// TODO do something?
 		}
 	};
 
@@ -84,7 +92,7 @@ public class MainActivity extends SherlockListActivity {
 	}
 
 	private void initListAdapter() {
-		mFotes = (ArrayList<Fote>) (new FoteDataSource(this)).fetchAllNotes();
+		mFotes = (ArrayList<Fote>) (new FoteDataSource(this)).getAllFotes();
 		mAdapter = new FoteListAdapter(this, mFotes);
 		setListAdapter(mAdapter);
 		getListView().setSelection(mAdapter.getCount());
@@ -126,28 +134,45 @@ public class MainActivity extends SherlockListActivity {
 		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
 		switch (item.getItemId()) {
 		case R.id.context_edit:
-			editFote(mFotes.get(info.position));
+			editFote(info.position);
 			return true;
 		case R.id.context_share:
-			shareFote(mFotes.get(info.position));
+			shareFote(info.position);
 			return true;
 		case R.id.context_delete:
-			deleteFote(mFotes.get(info.position));
+			deleteFote(info.position);
 			return true;
 		default:
 			return super.onContextItemSelected(item);
 		}
 	}
 
-	private void editFote(Fote fote) {
-		// TODO: implementation
+	private void editFote(int position) {
+		long foteID = mFotes.get(position).getId();
+		Intent intent = new Intent(MainActivity.this, EditingFoteActivity.class);
+		intent.putExtra(FoteApplication.FOTE_KEY, foteID);
+		startActivity(intent);
+		overridePendingTransition(R.anim.slide_right_incoming, R.anim.slide_right_outgoing);
 	}
 
-	private void shareFote(Fote fote) {
+	private void shareFote(int position) {
 		// TODO: implementation
+		Toast.makeText(MainActivity.this, "Shared Fote: " + position, Toast.LENGTH_SHORT).show();
 	}
 
-	private void deleteFote(Fote fote) {
-		// TODO: implementation
+	private void deleteFote(final int position) {
+		new AlertDialog.Builder(this).setTitle("Are you sure?").setPositiveButton("Cancel", new OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				// do nothing on cancel
+			}
+		}).setNegativeButton("Delete", new OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				Fote fote = mFotes.remove(position);
+				(new FoteDataSource(MainActivity.this)).deleteFote(fote);
+				mAdapter.notifyDataSetChanged();
+			}
+		}).show();
 	}
 }

@@ -88,7 +88,6 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="15dp"
-        android:onClick="createFote"
         android:paddingTop="15dp"
         android:paddingBottom="15dp"
         android:paddingLeft="24dp"

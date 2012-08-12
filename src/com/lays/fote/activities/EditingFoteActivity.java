@@ -19,24 +19,22 @@ import com.lays.fote.FoteApplication;
 import com.lays.fote.R;
 import com.lays.fote.database.FoteDataSource;
 import com.lays.fote.fragments.DatePickerFragment;
+import com.lays.fote.models.Fote;
 import com.lays.fote.utilities.FoteCalendar;
 
-/**
- * Activity lets user create a Fote and saves it to the database.
- * 
- * @author wlays
- * 
- */
-public class FotingActivity extends SherlockFragmentActivity {
+public class EditingFoteActivity extends SherlockFragmentActivity {
 
 	/** Class tag */
-	private static final String TAG = FotingActivity.class.getSimpleName();
+	private static final String TAG = EditingFoteActivity.class.getSimpleName();
+
+	/** Fote object */
+	private Fote mFote;
 
 	/** Associated views */
 	private EditText amount;
 	private EditText comment;
 	private Button date;
-	private Button done;
+	private Button save;
 
 	/** Timestamp variable for listener */
 	private FoteCalendar foteDate;
@@ -56,19 +54,34 @@ public class FotingActivity extends SherlockFragmentActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_foting);
+
+		// Get Fote by id from database
+		long foteID = getIntent().getLongExtra(FoteApplication.FOTE_KEY, 0);
+		mFote = (new FoteDataSource(this)).getFoteById(foteID);
+
+		// init amount
 		amount = (EditText) findViewById(R.id.fote_amount);
 		amount.setFilters(FoteApplication.getFoteInputFilter());
+		amount.setText(String.valueOf(mFote.getAmount()));
+
+		// init comment
 		comment = (EditText) findViewById(R.id.fote_comment);
-		foteDate = null;
+		comment.setText(mFote.getComment());
+
+		// init date
+		foteDate = new FoteCalendar(mFote.getDate());
 		date = (Button) findViewById(R.id.fote_date);
-		done = (Button) findViewById(R.id.done);
-		done.setOnClickListener(doneClickListener);
+		date.setText(foteDate.getFullDate());
+
+		// init save
+		save = (Button) findViewById(R.id.done);
+		save.setOnClickListener(saveClickListener);
 	}
 
 	@Override
 	public void onBackPressed() {
 		super.onBackPressed();
-		Log.i(TAG, "Fote Creation cancelled");
+		Log.i(TAG, "Fote Edit cancelled");
 		overridePendingTransition(R.anim.slide_left_incoming, R.anim.slide_left_outgoing);
 	}
 
@@ -83,7 +96,7 @@ public class FotingActivity extends SherlockFragmentActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.menu_cancel:
-			Log.i(TAG, "Fote Creation cancelled");
+			Log.i(TAG, "Fote Edit cancelled");
 			finish();
 			overridePendingTransition(R.anim.slide_left_incoming, R.anim.slide_left_outgoing);
 			return true;
@@ -105,37 +118,40 @@ public class FotingActivity extends SherlockFragmentActivity {
 	/**
 	 * OnClickListener of R.id.done Button
 	 */
-	private OnClickListener doneClickListener = new OnClickListener() {
+	private OnClickListener saveClickListener = new OnClickListener() {
 
 		@Override
 		public void onClick(View v) {
 			String total = amount.getText().toString();
 			// check if string is empty
 			if (total.equals("")) {
-				Toast.makeText(FotingActivity.this, "Amount can't be empty", Toast.LENGTH_SHORT).show();
+				Toast.makeText(EditingFoteActivity.this, "Amount can't be empty", Toast.LENGTH_SHORT).show();
 				return;
 			}
 			float foteAmount = Float.parseFloat(total);
 			// check if amount is invalid like zero
 			if (foteAmount == 0) {
-				Toast.makeText(FotingActivity.this, "Amount can't be zero", Toast.LENGTH_SHORT).show();
+				Toast.makeText(EditingFoteActivity.this, "Amount can't be zero", Toast.LENGTH_SHORT).show();
 				return;
 			}
 
 			String foteComment = comment.getText().toString();
 			// check if string is empty
 			if (foteComment.equals("")) {
-				Toast.makeText(FotingActivity.this, "Description can't be empty", Toast.LENGTH_SHORT).show();
+				Toast.makeText(EditingFoteActivity.this, "Description can't be empty", Toast.LENGTH_SHORT).show();
 				return;
 			}
 
 			// check if foteDate == null
 			if (foteDate == null) {
-				Toast.makeText(FotingActivity.this, "Date isn't set", Toast.LENGTH_SHORT).show();
+				Toast.makeText(EditingFoteActivity.this, "Date isn't set", Toast.LENGTH_SHORT).show();
 				return;
 			}
 
-			(new FoteDataSource(FotingActivity.this)).createFote(foteAmount, foteComment, foteDate.getTimeInMillis());
+			mFote.setAmount(foteAmount);
+			mFote.setComment(foteComment);
+			mFote.setDate(foteDate.getTimeInMillis());
+			(new FoteDataSource(EditingFoteActivity.this)).updateFote(mFote);
 			finish();
 		}
 	};

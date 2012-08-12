@@ -1,6 +1,5 @@
 package com.lays.fote.adapters;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import android.view.LayoutInflater;
@@ -46,11 +45,7 @@ public class FoteListAdapter extends ArrayAdapter<Fote> {
 		Fote fote = mFotes.get(position);
 		FoteCalendar date = new FoteCalendar(fote.getDate());
 		holder.getDate().setText(date.getShortenedDateAmerican());
-
-		DecimalFormat df = new DecimalFormat();
-		df.setMinimumFractionDigits(2);
-		df.setMaximumFractionDigits(2);
-		holder.getAmount().setText("$" + df.format(fote.getAmount()));
+		holder.getAmount().setText(fote.getFormattedAmount());
 		holder.getComment().setText(fote.getComment());
 
 		return row;

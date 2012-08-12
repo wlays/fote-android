@@ -5,13 +5,17 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.StrictMode;
+import android.text.InputFilter;
 import android.util.Log;
 
 import com.lays.fote.database.Database;
+import com.lays.fote.utilities.DecimalDigitsInputFilter;
 
 public class FoteApplication extends Application {
 
-	private static final String TAG = FoteApplication.class.toString();
+	private static final String TAG = FoteApplication.class.getSimpleName();
+
+	public static final String FOTE_KEY = "fote_id";
 
 	public static final boolean DEVELOPER_MODE = true;
 
@@ -27,10 +31,6 @@ public class FoteApplication extends Application {
 		database = new Database(this);
 	}
 
-	public Database getDatabaseHelper() {
-		return database;
-	}
-
 	/**
 	 * A global method to check if Internet connection is available
 	 */
@@ -41,5 +41,9 @@ public class FoteApplication extends Application {
 			return true;
 		}
 		return false;
+	}
+
+	public static InputFilter[] getFoteInputFilter() {
+		return new InputFilter[] { new DecimalDigitsInputFilter(6, 2) };
 	}
 }

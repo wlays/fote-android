@@ -1,5 +1,7 @@
 package com.lays.fote.models;
 
+import java.text.DecimalFormat;
+
 public class Fote {
 
 	private long id;
@@ -22,15 +24,38 @@ public class Fote {
 		this.id = id;
 	}
 
+	public String getFormattedAmount() {
+		DecimalFormat df = new DecimalFormat();
+		df.setMinimumFractionDigits(2);
+		df.setMaximumFractionDigits(2);
+		return "$" + df.format(amount);
+	}
+
 	public float getAmount() {
 		return amount;
+	}
+
+	public void setAmount(float amt) {
+		amount = amt;
 	}
 
 	public String getComment() {
 		return comment;
 	}
 
+	public void setComment(String cmt) {
+		comment = cmt;
+	}
+
 	public long getDate() {
 		return date;
+	}
+
+	public void setDate(long dte) {
+		date = dte;
+	}
+
+	public String toString() {
+		return "ID: " + id + " Amount: " + amount + " Date: " + date + " Comment: " + comment;
 	}
 }
