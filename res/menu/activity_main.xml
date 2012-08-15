@@ -1,16 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <item
         android:id="@+id/menu_add_fote"
-        android:icon="@android:drawable/ic_menu_add"
+        android:icon="@drawable/ic_menu_add"
         android:showAsAction="always"/>
     <item
         android:id="@+id/menu_see_list"
-        android:icon="@android:drawable/ic_menu_agenda"
+        android:icon="@drawable/ic_menu_copy_holo_dark"
         android:showAsAction="always"/>
     <item
         android:id="@+id/menu_settings"
-        android:icon="@android:drawable/ic_menu_manage"
+        android:icon="@drawable/ic_menu_manage"
         android:showAsAction="always"/>
 
 </menu>

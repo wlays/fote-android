@@ -1,6 +1,8 @@
 package com.lays.fote.activities;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.util.Log;
@@ -87,25 +89,21 @@ public class EditingFoteActivity extends SherlockFragmentActivity {
     public void onBackPressed() {
 	super.onBackPressed();
 	Log.i(TAG, "Fote Edit cancelled");
-	overridePendingTransition(R.anim.slide_left_incoming,
-		R.anim.slide_left_outgoing);
+	overridePendingTransition(R.anim.slide_left_incoming, R.anim.slide_left_outgoing);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 	MenuInflater inflater = getSupportMenuInflater();
-	inflater.inflate(R.menu.activity_foting, menu);
+	inflater.inflate(R.menu.activity_editing_fote, menu);
 	return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 	switch (item.getItemId()) {
-	case R.id.menu_cancel:
-	    Log.i(TAG, "Fote Edit cancelled");
-	    finish();
-	    overridePendingTransition(R.anim.slide_left_incoming,
-		    R.anim.slide_left_outgoing);
+	case R.id.menu_delete_fote:
+	    deleteFote();
 	    return true;
 	default:
 	    return super.onOptionsItemSelected(item);
@@ -118,8 +116,7 @@ public class EditingFoteActivity extends SherlockFragmentActivity {
      * @param v
      */
     public void editDate(View v) {
-	DialogFragment newFragment = DatePickerFragment
-		.newInstance(datePickerListener);
+	DialogFragment newFragment = DatePickerFragment.newInstance(datePickerListener);
 	newFragment.show(getSupportFragmentManager(), DatePickerFragment.TAG);
     }
 
@@ -168,6 +165,26 @@ public class EditingFoteActivity extends SherlockFragmentActivity {
 	    mFote.setMonthId(date.getId());
 	    (new FoteDataSource(EditingFoteActivity.this)).updateFote(mFote);
 	    finish();
+	    overridePendingTransition(R.anim.slide_left_incoming, R.anim.slide_left_outgoing);
 	}
     };
+    
+    private void deleteFote() {
+	new AlertDialog.Builder(this).setTitle("Are you sure?")
+	.setNegativeButton("Delete", new DialogInterface.OnClickListener() {
+	    @Override
+	    public void onClick(DialogInterface dialog, int which) {
+		(new MonthDataSource(EditingFoteActivity.this)).deleteIfOneAssoicatedFoteLeft(mFote.getMonthId());
+		(new FoteDataSource(EditingFoteActivity.this)).deleteFote(mFote);
+		finish();
+		overridePendingTransition(R.anim.slide_left_incoming, R.anim.slide_left_outgoing);
+	    }
+	})
+	.setPositiveButton("Cancel", new DialogInterface.OnClickListener() {
+	    @Override
+	    public void onClick(DialogInterface dialog, int which) {
+		// do nothing on cancel
+	    }
+	}).show();
+    }
 }

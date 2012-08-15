@@ -1,16 +1,17 @@
 package com.lays.fote.models;
 
-
 public class Month {
 
     private long id;
     private int month;
     private int year;
+    private long timestamp;
 
-    public Month(long id, int month, int year) {
+    public Month(long id, int month, int year, long timestamp) {
 	this.id = id;
 	setMonth(month);
 	setYear(year);
+	setTimestamp(timestamp);
     }
 
     public long getId() {
@@ -25,6 +26,10 @@ public class Month {
 	this.month = month;
     }
 
+    public String getStringYear() {
+	return "" + year;
+    }
+    
     public int getYear() {
 	return year;
     }
@@ -32,39 +37,47 @@ public class Month {
     public void setYear(int year) {
 	this.year = year;
     }
-    
+
+    public long getTimestamp() {
+	return timestamp;
+    }
+
+    public void setTimestamp(long timestamp) {
+	this.timestamp = timestamp;
+    }
+
     public String toString() {
 	return "Month ID: " + id + " Month: " + month + " Year: " + year;
     }
-    
+
     public String getMonthName() {
 	switch (getMonth()) {
+	case 0:
+	    return "January";
 	case 1:
-		return "January";
+	    return "February";
 	case 2:
-		return "February";
+	    return "March";
 	case 3:
-		return "March";
+	    return "April";
 	case 4:
-		return "April";
+	    return "May";
 	case 5:
-		return "May";
+	    return "June";
 	case 6:
-		return "June";
+	    return "July";
 	case 7:
-		return "July";
+	    return "August";
 	case 8:
-		return "August";
+	    return "September";
 	case 9:
-		return "September";
+	    return "October";
 	case 10:
-		return "October";
+	    return "November";
 	case 11:
-		return "November";
-	case 12:
-		return "December";
+	    return "December";
 	default:
-		return null;
+	    return null;
 	}
-}
+    }
 }

@@ -140,6 +140,7 @@ public class FotingActivity extends SherlockFragmentActivity {
 			Month date = (new MonthDataSource(FotingActivity.this)).findOrCreateMonthByMonthYear(foteDate.getMonth(), foteDate.getYear());
 			(new FoteDataSource(FotingActivity.this)).createFote(foteAmount, foteComment, foteDate.getTimeInMillis(), date.getId());
 			finish();
+			overridePendingTransition(R.anim.slide_left_incoming, R.anim.slide_left_outgoing);
 		}
 	};
 }

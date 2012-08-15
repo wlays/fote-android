@@ -36,6 +36,7 @@ import com.lays.fote.utilities.FoteCalendar;
 public class MainActivity extends SherlockListActivity {
 
     private static final String TAG = MainActivity.class.getSimpleName();
+    
     private Spinner spinner;
     private Month currentMonth;
     private ArrayList<Fote> mFotes;
@@ -55,8 +56,7 @@ public class MainActivity extends SherlockListActivity {
     /** Fote spinner's listener */
     private OnItemSelectedListener spinnerListener = new OnItemSelectedListener() {
 	@Override
-	public void onItemSelected(AdapterView<?> parent, View v, int position,
-		long id) {
+	public void onItemSelected(AdapterView<?> parent, View v, int position, long id) {
 	    // TODO do something to sort
 	}
 
@@ -98,11 +98,9 @@ public class MainActivity extends SherlockListActivity {
     private void initCurrentMonth() {
 	// check if there is a month object currently
 	FoteCalendar now = new FoteCalendar();
-	String month = now.getMonth();
-	String year = now.getYear();
-	currentMonth = (new MonthDataSource(this)).findOrCreateMonthByMonthYear(month, year);
+	currentMonth = (new MonthDataSource(this)).findOrCreateMonthByMonthYear(now.getMonth(), now.getYear());
 	TextView monthYearView = (TextView) findViewById(R.id.current_month_year);
-	monthYearView.setText(currentMonth.getMonthName() + " " + currentMonth.getYear());
+	monthYearView.setText("Month: " + currentMonth.getMonthName() + " " + currentMonth.getYear());
     }
 
     private void initListViewAndTotalSpending() {
@@ -138,16 +136,15 @@ public class MainActivity extends SherlockListActivity {
 	switch (item.getItemId()) {
 	case R.id.menu_add_fote:
 	    startActivity(new Intent(this, FotingActivity.class));
-	    overridePendingTransition(R.anim.slide_right_incoming,
-		    R.anim.slide_right_outgoing);
+	    overridePendingTransition(R.anim.slide_right_incoming, R.anim.slide_right_outgoing);
 	    return true;
 	case R.id.menu_see_list:
-	    Toast.makeText(this, "Saw big list bro...", Toast.LENGTH_SHORT)
-		    .show();
+	    startActivity(new Intent(MainActivity.this, MonthListActivity.class));
+	    overridePendingTransition(R.anim.slide_up_incoming, R.anim.slide_up_outgoing);
 	    return true;
 	case R.id.menu_settings:
-	    Toast.makeText(this, "Saw everything bro...", Toast.LENGTH_SHORT)
-		    .show();
+	    startActivity(new Intent(MainActivity.this, SettingsActivity.class));
+	    overridePendingTransition(R.anim.slide_left_incoming, R.anim.slide_left_outgoing);
 	    return true;
 	default:
 	    return super.onOptionsItemSelected(item);
