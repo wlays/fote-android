@@ -44,6 +44,10 @@ public class FoteCalendar extends GregorianCalendar {
 		super(year, month, day);
 	}
 
+	public FoteCalendar() {
+	    super();
+	}
+
 	public String getHourWithNotation() {
 		if (get(Calendar.AM_PM) == 1) { // 0 is AM, 1 is PM
 			return get(Calendar.HOUR) + ":" + get(Calendar.MINUTE) + "PM";

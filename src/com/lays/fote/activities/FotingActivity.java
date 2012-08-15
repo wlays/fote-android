@@ -18,7 +18,9 @@ import com.actionbarsherlock.view.MenuItem;
 import com.lays.fote.FoteApplication;
 import com.lays.fote.R;
 import com.lays.fote.database.FoteDataSource;
+import com.lays.fote.database.MonthDataSource;
 import com.lays.fote.fragments.DatePickerFragment;
+import com.lays.fote.models.Month;
 import com.lays.fote.utilities.FoteCalendar;
 
 /**
@@ -135,7 +137,8 @@ public class FotingActivity extends SherlockFragmentActivity {
 				return;
 			}
 
-			(new FoteDataSource(FotingActivity.this)).createFote(foteAmount, foteComment, foteDate.getTimeInMillis());
+			Month date = (new MonthDataSource(FotingActivity.this)).findOrCreateMonthByMonthYear(foteDate.getMonth(), foteDate.getYear());
+			(new FoteDataSource(FotingActivity.this)).createFote(foteAmount, foteComment, foteDate.getTimeInMillis(), date.getId());
 			finish();
 		}
 	};

@@ -4,58 +4,65 @@ import java.text.DecimalFormat;
 
 public class Fote {
 
-	private long id;
-	private float amount;
-	private String comment;
-	private long date;
+    private long id;
+    private float amount;
+    private String comment;
+    private long date;
+    private long monthId;
 
-	public Fote(long mId, float amt, String cmt, long dte) {
-		id = mId;
-		amount = amt;
-		comment = cmt;
-		date = dte;
-	}
+    public Fote(long id, float amount, String comment, long date, long monthId) {
+	this.id = id;
+	setAmount(amount);
+	setComment(comment);
+	setDate(date);
+	setMonthId(monthId);
+    }
 
-	public long getId() {
-		return id;
-	}
+    public long getId() {
+	return id;
+    }
 
-	public void setId(long id) {
-		this.id = id;
-	}
+    public String getFormattedAmount() {
+	DecimalFormat df = new DecimalFormat();
+	df.setMinimumFractionDigits(2);
+	df.setMaximumFractionDigits(2);
+	return "$" + df.format(amount);
+    }
 
-	public String getFormattedAmount() {
-		DecimalFormat df = new DecimalFormat();
-		df.setMinimumFractionDigits(2);
-		df.setMaximumFractionDigits(2);
-		return "$" + df.format(amount);
-	}
+    public float getAmount() {
+	return amount;
+    }
 
-	public float getAmount() {
-		return amount;
-	}
+    public void setAmount(float amt) {
+	amount = amt;
+    }
 
-	public void setAmount(float amt) {
-		amount = amt;
-	}
+    public String getComment() {
+	return comment;
+    }
 
-	public String getComment() {
-		return comment;
-	}
+    public void setComment(String cmt) {
+	comment = cmt;
+    }
 
-	public void setComment(String cmt) {
-		comment = cmt;
-	}
+    public long getDate() {
+	return date;
+    }
 
-	public long getDate() {
-		return date;
-	}
+    public void setDate(long dte) {
+	date = dte;
+    }
 
-	public void setDate(long dte) {
-		date = dte;
-	}
+    public long getMonthId() {
+	return monthId;
+    }
 
-	public String toString() {
-		return "ID: " + id + " Amount: " + amount + " Date: " + date + " Comment: " + comment;
-	}
+    public void setMonthId(long monthId) {
+	this.monthId = monthId;
+    }
+    
+    public String toString() {
+	return "Fote ID: " + id + " Amount: " + amount + " Date: " + date
+		+ " Comment: " + comment + " Month ID: " + monthId;
+    }
 }
