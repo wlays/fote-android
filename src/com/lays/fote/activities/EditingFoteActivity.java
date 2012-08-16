@@ -1,5 +1,6 @@
 package com.lays.fote.activities;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
@@ -164,6 +165,7 @@ public class EditingFoteActivity extends SherlockFragmentActivity {
 	    Month date = (new MonthDataSource(EditingFoteActivity.this)).findOrCreateMonthByMonthYear(foteDate.getMonth(), foteDate.getYear());
 	    mFote.setMonthId(date.getId());
 	    (new FoteDataSource(EditingFoteActivity.this)).updateFote(mFote);
+	    EditingFoteActivity.this.setResult(Activity.RESULT_OK);
 	    finish();
 	    overridePendingTransition(R.anim.slide_left_incoming, R.anim.slide_left_outgoing);
 	}
@@ -176,6 +178,7 @@ public class EditingFoteActivity extends SherlockFragmentActivity {
 	    public void onClick(DialogInterface dialog, int which) {
 		(new MonthDataSource(EditingFoteActivity.this)).deleteIfOneAssoicatedFoteLeft(mFote.getMonthId());
 		(new FoteDataSource(EditingFoteActivity.this)).deleteFote(mFote);
+		EditingFoteActivity.this.setResult(Activity.RESULT_OK);
 		finish();
 		overridePendingTransition(R.anim.slide_left_incoming, R.anim.slide_left_outgoing);
 	    }

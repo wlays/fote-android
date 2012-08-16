@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.View;
@@ -37,6 +38,10 @@ public class MainActivity extends SherlockListActivity {
 
     private static final String TAG = MainActivity.class.getSimpleName();
     
+    private static final int NEW_FOTE_REQUEST_CODE = 0;
+    private static final int EDIT_FOTE_REQUEST_CODE = 1;
+    private static final int MONTH_LIST_REQUEST_CODE = 2;
+    
     private Spinner spinner;
     private Month currentMonth;
     private ArrayList<Fote> mFotes;
@@ -45,11 +50,7 @@ public class MainActivity extends SherlockListActivity {
     /** Fote list's listener */
     private OnItemClickListener listener = new OnItemClickListener() {
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-	    long foteID = mFotes.get(position).getId();
-	    Intent intent = new Intent(MainActivity.this, EditingFoteActivity.class);
-	    intent.putExtra(FoteApplication.FOTE_KEY, foteID);
-	    startActivity(intent);
-	    overridePendingTransition(R.anim.slide_right_incoming, R.anim.slide_right_outgoing);
+	    editFote(position);
 	}
     };
 
@@ -75,15 +76,6 @@ public class MainActivity extends SherlockListActivity {
 	initSpinner();
 	initCurrentMonth();
 	initListViewAndTotalSpending();
-    }
-
-    @Override
-    public void onWindowFocusChanged(boolean hasFocus) {
-	super.onWindowFocusChanged(hasFocus);
-	if (hasFocus) {
-	    initCurrentMonth();
-	    initListViewAndTotalSpending();
-	}
     }
 
     private void initSpinner() {
@@ -135,11 +127,11 @@ public class MainActivity extends SherlockListActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
 	switch (item.getItemId()) {
 	case R.id.menu_add_fote:
-	    startActivity(new Intent(this, FotingActivity.class));
+	    startActivityForResult(new Intent(this, FotingActivity.class), NEW_FOTE_REQUEST_CODE);
 	    overridePendingTransition(R.anim.slide_right_incoming, R.anim.slide_right_outgoing);
 	    return true;
 	case R.id.menu_see_list:
-	    startActivity(new Intent(MainActivity.this, MonthListActivity.class));
+	    startActivityForResult(new Intent(MainActivity.this, MonthListActivity.class), MONTH_LIST_REQUEST_CODE);
 	    overridePendingTransition(R.anim.slide_up_incoming, R.anim.slide_up_outgoing);
 	    return true;
 	case R.id.menu_settings:
@@ -148,6 +140,41 @@ public class MainActivity extends SherlockListActivity {
 	    return true;
 	default:
 	    return super.onOptionsItemSelected(item);
+	}
+    }
+    
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+	switch (requestCode) {
+	case NEW_FOTE_REQUEST_CODE:
+	    if (resultCode == RESULT_OK) {
+		// A new fote was created, refresh list
+        	Log.i(TAG, "onActivityResult: OK");
+        	initCurrentMonth();
+    	    	initListViewAndTotalSpending();
+	    }
+	    break;
+	case EDIT_FOTE_REQUEST_CODE:
+	    if (resultCode == RESULT_OK) {
+                // A fote was edited, refresh list
+        	Log.i(TAG, "onActivityResult: OK");
+        	initCurrentMonth();
+    	    	initListViewAndTotalSpending();
+            }
+	    break;
+	case MONTH_LIST_REQUEST_CODE:
+	    if (resultCode == RESULT_OK) {
+                // A month was picked, get data...
+        	Log.i(TAG, "onActivityResult: OK");
+        	long monthId = data.getLongExtra(MonthListActivity.MONTH_ID_KEY, 0);
+        	Log.i(TAG, "Month ID returned: " + monthId);
+        	// TODO: do something to load the month pick
+            } else {
+        	Log.i(TAG, "onActivityResult: Cancelled");
+            }
+	    break;
+	default:
+	    break;
 	}
     }
 
@@ -179,7 +206,7 @@ public class MainActivity extends SherlockListActivity {
 	long foteID = mFotes.get(position).getId();
 	Intent intent = new Intent(MainActivity.this, EditingFoteActivity.class);
 	intent.putExtra(FoteApplication.FOTE_KEY, foteID);
-	startActivity(intent);
+	startActivityForResult(intent, EDIT_FOTE_REQUEST_CODE);
 	overridePendingTransition(R.anim.slide_right_incoming, R.anim.slide_right_outgoing);
     }
 
