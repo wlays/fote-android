@@ -86,7 +86,7 @@ public class MonthDataSource {
 	    database.delete(Database.TABLE_MONTH, Database.COLUMN_MONTH_ID
 		    + "=" + Long.toString(monthId), null);
 	} else {
-	    Log.e(TAG, "ERROR: Month has more than one associated Fote");
+	    Log.e(TAG, "ERROR: Month has more than one associated Fote, aborting deletion of Month");
 	}
 	result.close();
 	close();

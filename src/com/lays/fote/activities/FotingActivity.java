@@ -70,8 +70,7 @@ public class FotingActivity extends SherlockFragmentActivity {
     @Override
     public void onBackPressed() {
 	super.onBackPressed();
-	overridePendingTransition(R.anim.slide_left_incoming,
-		R.anim.slide_left_outgoing);
+	overridePendingTransition(R.anim.slide_left_incoming, R.anim.slide_left_outgoing);
     }
 
     @Override
@@ -86,8 +85,7 @@ public class FotingActivity extends SherlockFragmentActivity {
 	switch (item.getItemId()) {
 	case R.id.menu_cancel:
 	    finish();
-	    overridePendingTransition(R.anim.slide_left_incoming,
-		    R.anim.slide_left_outgoing);
+	    overridePendingTransition(R.anim.slide_left_incoming, R.anim.slide_left_outgoing);
 	    return true;
 	default:
 	    return super.onOptionsItemSelected(item);
@@ -100,8 +98,7 @@ public class FotingActivity extends SherlockFragmentActivity {
      * @param v
      */
     public void editDate(View v) {
-	DialogFragment newFragment = DatePickerFragment
-		.newInstance(datePickerListener);
+	DialogFragment newFragment = DatePickerFragment.newInstance(datePickerListener);
 	newFragment.show(getSupportFragmentManager(), DatePickerFragment.TAG);
     }
 
@@ -143,15 +140,11 @@ public class FotingActivity extends SherlockFragmentActivity {
 		return;
 	    }
 
-	    Month date = (new MonthDataSource(FotingActivity.this))
-		    .findOrCreateMonthByMonthYear(foteDate.getMonth(),
-			    foteDate.getYear());
-	    (new FoteDataSource(FotingActivity.this)).createFote(foteAmount,
-		    foteComment, foteDate.getTimeInMillis(), date.getId());
+	    Month date = (new MonthDataSource(FotingActivity.this)).findOrCreateMonthByMonthYear(foteDate.getMonth(), foteDate.getYear());
+	    (new FoteDataSource(FotingActivity.this)).createFote(foteAmount, foteComment, foteDate.getTimeInMillis(), date.getId());
 	    FotingActivity.this.setResult(Activity.RESULT_OK);
 	    finish();
-	    overridePendingTransition(R.anim.slide_left_incoming,
-		    R.anim.slide_left_outgoing);
+	    overridePendingTransition(R.anim.slide_left_incoming, R.anim.slide_left_outgoing);
 	}
     };
 }

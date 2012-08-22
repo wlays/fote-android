@@ -106,6 +106,30 @@ public class FoteDataSource {
 	return fotes;
     }
 
+    public List<Fote> getAllFotesOrderedByAmount(long monthId) {
+	open();
+	List<Fote> fotes = new ArrayList<Fote>();
+	Cursor result = database.query(Database.TABLE_FOTE, new String[] {
+		Database.COLUMN_FOTE_ID, Database.COLUMN_FOTE_AMOUNT,
+		Database.COLUMN_FOTE_COMMENT, Database.COLUMN_FOTE_DATE,
+		Database.COLUMN_FOTE_MONTH_ID }, Database.COLUMN_FOTE_MONTH_ID
+		+ " = ?", new String[] { Long.toString(monthId) }, null, null,
+		Database.COLUMN_FOTE_AMOUNT);
+	if (result.moveToFirst()) {
+	    while (!result.isAfterLast()) {
+		Fote fote = new Fote(result.getLong(0), result.getFloat(1),
+			result.getString(2), result.getLong(3),
+			result.getLong(4));
+		// Log.i(TAG, fote.toString());
+		fotes.add(fote);
+		result.moveToNext();
+	    }
+	}
+	result.close();
+	close();
+	return fotes;
+    }
+    
     public Fote getFoteById(long id) {
 	open();
 	Fote fote = null;

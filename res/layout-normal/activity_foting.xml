@@ -3,83 +3,86 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/bg_activity"
     tools:context=".FotingActivity" >
 
     <TextView
         android:id="@+id/fote_amount_label"
+        style="@style/FoteLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="15dp"
-        android:text="@string/fote_amount_label"
-        android:textColor="@color/black"
-        android:textSize="25sp" />
+        android:layout_marginTop="18dp"
+        android:text="@string/fote_amount_label" />
 
     <EditText
         android:id="@+id/fote_amount"
+        style="@style/FoteText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/fote_amount_label"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="15dp"
+        android:layout_marginBottom="18dp"
         android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp"
+        android:background="@drawable/bg_fote_button"
         android:gravity="center"
         android:imeOptions="actionDone"
         android:inputType="numberDecimal"
-        android:singleLine="true"
-        android:textSize="25sp" />
+        android:padding="8dp"
+        android:singleLine="true" />
 
     <TextView
         android:id="@+id/fote_comment_label"
+        style="@style/FoteLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/fote_amount"
         android:layout_centerHorizontal="true"
-        android:text="@string/fote_comment_label"
-        android:textColor="@color/black"
-        android:textSize="25sp" />
+        android:text="@string/fote_comment_label" />
 
     <EditText
         android:id="@+id/fote_comment"
+        style="@style/FoteText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/fote_comment_label"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="15dp"
+        android:layout_marginBottom="18dp"
         android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp"
+        android:background="@drawable/bg_fote_button"
         android:gravity="center"
         android:imeOptions="actionDone"
         android:inputType="text"
-        android:maxLength="20"
-        android:singleLine="true"
-        android:textSize="25sp" />
+        android:maxLength="25"
+        android:padding="8dp"
+        android:singleLine="true" />
 
     <TextView
         android:id="@+id/fote_date_label"
+        style="@style/FoteLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/fote_comment"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="15dp"
-        android:text="@string/fote_date_label"
-        android:textColor="@color/black"
-        android:textSize="25sp" />
+        android:text="@string/fote_date_label" />
 
     <Button
         android:id="@+id/fote_date"
+        style="@style/FoteText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/fote_date_label"
         android:layout_centerHorizontal="true"
+        android:background="@drawable/bg_fote_button"
         android:onClick="editDate"
-        android:padding="15dp"
-        android:text="@string/fote_date"
-        android:textColor="@color/black"
-        android:textSize="25sp"
-        android:textStyle="bold" />
+        android:paddingBottom="8dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingTop="8dp"
+        android:text="@string/fote_date" />
 
     <Button
         android:id="@+id/done"
@@ -87,14 +90,15 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="15dp"
-        android:paddingTop="15dp"
-        android:paddingBottom="15dp"
-        android:paddingLeft="24dp"
-        android:paddingRight="24dp"
+        android:layout_marginBottom="18dp"
+        android:background="@drawable/bg_fote_button"
+        android:paddingBottom="10dp"
+        android:paddingLeft="28dp"
+        android:paddingRight="28dp"
+        android:paddingTop="10dp"
         android:text="@string/fote_done"
-        android:textColor="@color/black"
-        android:textSize="39sp"
+        android:textColor="@color/white"
+        android:textSize="28sp"
         android:textStyle="bold" />
 
 </RelativeLayout>

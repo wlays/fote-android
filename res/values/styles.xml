@@ -1,5 +1,50 @@
 <resources>
 
-    <style name="AppTheme" parent="android:Theme.Light" />
+    <!-- Our main style for Lua application -->
+    <style name="Theme.Fote" parent="Theme.Sherlock.Light.DarkActionBar">
+        <item name="actionBarStyle">@style/Theme.Fote.ActionBar</item>
+        <item name="android:actionBarStyle">@style/Theme.Fote.ActionBar</item>
+        <item name="actionBarTabStyle">@style/Theme.Fote.ActionBar.Tab</item>
+        <item name="android:actionBarTabStyle">@style/Theme.Fote.ActionBar.Tab</item>
+        <item name="actionBarTabBarStyle">@style/Theme.Fote.ActionBar.Tab.Bar</item>
+        <item name="android:actionBarTabBarStyle">@style/Theme.Fote.ActionBar.Tab.Bar</item>
+    </style>
+    
+    <!-- A style resources for the action bar -->
+    <style name="Theme.Fote.ActionBar" parent="Widget.Sherlock.Light.ActionBar.Solid.Inverse">
+        <item name="displayOptions">showHome|useLogo</item>
+        <item name="android:displayOptions">showHome|useLogo</item>
+        <item name="background">@drawable/main</item>
+        <item name="android:background">@drawable/main</item>
+    </style>
+    
+    <!-- A style resource for tabs in the action bar. -->
+    <style name="Theme.Fote.ActionBar.Tab">
+        <item name="android:background">@drawable/main_tab</item>
+        <item name="android:gravity">center</item>
+        <item name="android:measureWithLargestChild">true</item>
+        <item name="android:showDividers">none</item>
+        <item name="icon">@drawable/ic_launcher</item>
+    </style>
 
+    <!-- A style resource for the thin bar that appears below the navigation tabs. -->
+    <style name="Theme.Fote.ActionBar.Tab.Bar">
+        <item name="android:background">@drawable/main_tab_bar</item>
+        <item name="android:dividerPadding">5dp</item>
+        <item name="android:showDividers">middle</item>
+    </style>
+    
+    <!-- A style resource for text labels in EditingFote and Foting Activity -->
+    <style name="FoteLabel">
+        <item name="android:textSize">25sp</item>
+		<item name="android:textColor">#284B2B</item>
+    </style>
+    
+    <!-- A style resource for text fields in EditingFote and Foting Activity -->
+    <style name="FoteText">
+        <item name="android:textSize">20sp</item>
+		<item name="android:textColor">@color/white</item>
+		<item name="android:textStyle">bold</item>
+    </style>
+    
 </resources>

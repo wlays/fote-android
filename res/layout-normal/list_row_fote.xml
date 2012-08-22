@@ -13,7 +13,7 @@
         android:layout_weight="25"
         android:gravity="center"
         android:text="@string/example_date"
-        android:textColor="@color/black"
+        android:textColor="#284B2B"
         android:textSize="12sp" />
 
     <View
@@ -22,7 +22,7 @@
         android:layout_gravity="center_vertical"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
-        android:background="#FFCCCCCC" />
+        android:background="#284B2B" />
 
     <TextView
         android:id="@+id/row_amount"
@@ -32,7 +32,7 @@
         android:layout_weight="25"
         android:gravity="center"
         android:text="@string/example_amount"
-        android:textColor="@color/black"
+        android:textColor="#284B2B"
         android:textSize="13sp" />
 
     <View
@@ -41,7 +41,7 @@
         android:layout_gravity="center_vertical"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
-        android:background="#FFCCCCCC" />
+        android:background="#284B2B" />
 
     <TextView
         android:id="@+id/row_comment"
@@ -51,7 +51,7 @@
         android:layout_gravity="center_vertical"
         android:layout_weight="50"
         android:text="@string/example_comment"
-        android:textColor="@color/black"
+        android:textColor="#284B2B"
         android:textSize="13sp" />
 
 </LinearLayout>

@@ -2,13 +2,14 @@ package com.lays.fote.activities;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.View;
@@ -58,19 +59,32 @@ public class MainActivity extends SherlockListActivity {
     private OnItemSelectedListener spinnerListener = new OnItemSelectedListener() {
 	@Override
 	public void onItemSelected(AdapterView<?> parent, View v, int position, long id) {
-	    // TODO do something to sort
+	    if (position == MOST_RECENT) {
+		SORTING_STATE = MOST_RECENT;
+	    } else if (position == MOST_EXPENSIVE) {
+		SORTING_STATE = MOST_EXPENSIVE;
+	    } else if (position == LEAST_RECENT) {
+		SORTING_STATE = LEAST_RECENT;
+	    } else if (position == LEAST_EXPENSIVE) {
+		SORTING_STATE = LEAST_EXPENSIVE;
+	    }
+	    initListViewAndTotalSpending();
 	}
 
 	@Override
 	public void onNothingSelected(AdapterView<?> parent) {
-	    // TODO do something?
 	}
     };
-
+    
     @Override
     public void onCreate(Bundle savedInstanceState) {
 	super.onCreate(savedInstanceState);
-	setContentView(R.layout.activity_main);
+	if ((getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_LARGE) == Configuration.SCREENLAYOUT_SIZE_LARGE) {
+	    // yes, we are large
+	} else {
+	    // no, we are not
+	    setContentView(R.layout.activity_main);
+	}
 	registerForContextMenu(getListView());
 	getListView().setOnItemClickListener(listener);
 	initSpinner();
@@ -78,11 +92,18 @@ public class MainActivity extends SherlockListActivity {
 	initListViewAndTotalSpending();
     }
 
+    // TODO: initialization of sporting state from user preference of list sorting default in settings
+    private int SORTING_STATE = 0;
+    private final int MOST_RECENT = 0;
+    private final int MOST_EXPENSIVE = 1;
+    private final int LEAST_RECENT = 2;
+    private final int LEAST_EXPENSIVE = 3;
+    private final String[] mSorting = { "Most Recent", "Most Expensive", "Least Recent", "Least Expensive" };
+    
     private void initSpinner() {
 	spinner = (Spinner) findViewById(R.id.spinner);
 	spinner.setOnItemSelectedListener(spinnerListener);
-	final String[] items = { "Most Recent", "Most Expensive" };
-	ArrayAdapter<String> aa = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, items);
+	ArrayAdapter<String> aa = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, mSorting);
 	aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 	spinner.setAdapter(aa);
     }
@@ -95,12 +116,21 @@ public class MainActivity extends SherlockListActivity {
 	monthYearView.setText("Month: " + currentMonth.getMonthName() + " " + currentMonth.getYear());
     }
 
-    private void initListViewAndTotalSpending() {
+    private void initListViewAndTotalSpending() {	
 	// refresh data here and update total spending too
-	mFotes = (ArrayList<Fote>) (new FoteDataSource(this)).getAllFotesByMonthId(currentMonth.getId());
+	if (SORTING_STATE == MOST_RECENT) {
+	    mFotes = (ArrayList<Fote>) (new FoteDataSource(this)).getAllFotesByMonthId(currentMonth.getId());
+	    Collections.reverse(mFotes);
+	} else if (SORTING_STATE == MOST_EXPENSIVE) {
+	    mFotes = (ArrayList<Fote>) (new FoteDataSource(this)).getAllFotesOrderedByAmount(currentMonth.getId());
+	    Collections.reverse(mFotes);
+	} else if (SORTING_STATE == LEAST_RECENT) {
+	    mFotes = (ArrayList<Fote>) (new FoteDataSource(this)).getAllFotesByMonthId(currentMonth.getId());
+	} else if (SORTING_STATE == LEAST_EXPENSIVE) {
+	    mFotes = (ArrayList<Fote>) (new FoteDataSource(this)).getAllFotesOrderedByAmount(currentMonth.getId());
+	}
 	mAdapter = new FoteListAdapter(this, mFotes);
 	setListAdapter(mAdapter);
-	getListView().setSelection(mAdapter.getCount());
 	TextView totalSpendingView = (TextView) findViewById(R.id.total_spending_header);
 	totalSpendingView.setText(getString(R.string.total_spending_label) + " " + getTotalSpending());
     }
@@ -135,8 +165,8 @@ public class MainActivity extends SherlockListActivity {
 	    overridePendingTransition(R.anim.slide_up_incoming, R.anim.slide_up_outgoing);
 	    return true;
 	case R.id.menu_settings:
-	    startActivity(new Intent(MainActivity.this, SettingsActivity.class));
-	    overridePendingTransition(R.anim.slide_left_incoming, R.anim.slide_left_outgoing);
+	    // startActivity(new Intent(MainActivity.this, SettingsActivity.class));
+	    // overridePendingTransition(R.anim.slide_left_incoming, R.anim.slide_left_outgoing);
 	    return true;
 	default:
 	    return super.onOptionsItemSelected(item);
@@ -149,28 +179,27 @@ public class MainActivity extends SherlockListActivity {
 	case NEW_FOTE_REQUEST_CODE:
 	    if (resultCode == RESULT_OK) {
 		// A new fote was created, refresh list
-        	Log.i(TAG, "onActivityResult: OK");
         	initCurrentMonth();
-    	    	initListViewAndTotalSpending();
+        	initListViewAndTotalSpending();
 	    }
 	    break;
 	case EDIT_FOTE_REQUEST_CODE:
 	    if (resultCode == RESULT_OK) {
                 // A fote was edited, refresh list
-        	Log.i(TAG, "onActivityResult: OK");
         	initCurrentMonth();
-    	    	initListViewAndTotalSpending();
+        	initListViewAndTotalSpending();
             }
 	    break;
 	case MONTH_LIST_REQUEST_CODE:
 	    if (resultCode == RESULT_OK) {
-                // A month was picked, get data...
-        	Log.i(TAG, "onActivityResult: OK");
-        	long monthId = data.getLongExtra(MonthListActivity.MONTH_ID_KEY, 0);
-        	Log.i(TAG, "Month ID returned: " + monthId);
-        	// TODO: do something to load the month pick
-            } else {
-        	Log.i(TAG, "onActivityResult: Cancelled");
+                // A new month was picked,
+		// set it to current month and load it from database..
+		long monthId = data.getLongExtra(MonthListActivity.MONTH_ID_KEY, 0);
+		currentMonth = (new MonthDataSource(this)).getMonthById(monthId);
+		TextView monthYearView = (TextView) findViewById(R.id.current_month_year);
+		monthYearView.setText("Month: " + currentMonth.getMonthName() + " " + currentMonth.getYear());
+		// refresh the list
+        	initListViewAndTotalSpending();
             }
 	    break;
 	default:
@@ -211,7 +240,7 @@ public class MainActivity extends SherlockListActivity {
     }
 
     private void shareFote(int position) {
-	// TODO: implementation
+	// TODO: implementation to be completed
 	Toast.makeText(MainActivity.this, "Shared Fote: " + position, Toast.LENGTH_SHORT).show();
     }
 
@@ -229,6 +258,8 @@ public class MainActivity extends SherlockListActivity {
 			(new MonthDataSource(MainActivity.this)).deleteIfOneAssoicatedFoteLeft(fote.getMonthId());
 			(new FoteDataSource(MainActivity.this)).deleteFote(fote);
 			mAdapter.notifyDataSetChanged();
+			TextView totalSpendingView = (TextView) findViewById(R.id.total_spending_header);
+			totalSpendingView.setText(getString(R.string.total_spending_label) + " " + getTotalSpending());
 		    }
 		}).show();
     }
