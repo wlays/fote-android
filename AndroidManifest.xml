@@ -23,6 +23,7 @@
         android:theme="@android:style/Theme.NoTitleBar" >
         <activity
             android:name=".activities.MainActivity"
+            android:label="Fote"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Fote" >
             <intent-filter>
@@ -33,21 +34,31 @@
         </activity>
         <activity
             android:name=".activities.FotingActivity"
+            android:label="New Fote"
             android:noHistory="true"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Fote" />
         <activity
             android:name=".activities.EditingFoteActivity"
+            android:label="Edit"
             android:noHistory="true"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Fote" />
         <activity
             android:name=".activities.MonthListActivity"
+            android:label="All Months"
             android:noHistory="true"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Fote" />
         <activity
             android:name=".activities.SettingsActivity"
+            android:label="Settings"
+            android:noHistory="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Fote" />
+        <activity
+            android:name=".activities.SettingsNewActivity"
+            android:label="Settings"
             android:noHistory="true"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Fote" />

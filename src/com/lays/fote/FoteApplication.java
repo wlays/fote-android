@@ -13,37 +13,40 @@ import com.lays.fote.utilities.DecimalDigitsInputFilter;
 
 public class FoteApplication extends Application {
 
-	private static final String TAG = FoteApplication.class.getSimpleName();
+    private static final String TAG = FoteApplication.class.getSimpleName();
 
-	public static final String FOTE_KEY = "fote_id";
+    public static final String FOTE_KEY = "fote_id";
+    
+    public static final String PREF_SORTING_KEY = "prefDefaultListSorting";
+    public static String PREF_SORTING_DEFAULT_VALUE;
+    
+    public static final boolean DEVELOPER_MODE = true;
 
-	public static final boolean DEVELOPER_MODE = true;
-
-	private static Database database;
-
-	public void onCreate() {
-		if (DEVELOPER_MODE) {
-			StrictMode.enableDefaults();
-		}
-		super.onCreate();
-		// Initialize global variables here
-		Log.i(TAG, "Fote Application starting...");
-		database = new Database(this);
+    public void onCreate() {
+	if (DEVELOPER_MODE) {
+	    StrictMode.enableDefaults();
 	}
+	super.onCreate();
+	// Initialize global variables here
+	Log.i(TAG, "Fote Application starting...");
+	new Database(this);
+	
+	PREF_SORTING_DEFAULT_VALUE = getResources().getString(R.string.pref_sorting_default);
+    }
 
-	/**
-	 * A global method to check if Internet connection is available
-	 */
-	public boolean isOnline() {
-		ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-		NetworkInfo netInfo = cm.getActiveNetworkInfo();
-		if (netInfo != null && netInfo.isConnected()) {
-			return true;
-		}
-		return false;
+    /**
+     * A global method to check if Internet connection is available
+     */
+    public boolean isOnline() {
+	ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+	NetworkInfo netInfo = cm.getActiveNetworkInfo();
+	if (netInfo != null && netInfo.isConnected()) {
+	    return true;
 	}
+	return false;
+    }
 
-	public static InputFilter[] getFoteInputFilter() {
-		return new InputFilter[] { new DecimalDigitsInputFilter(6, 2) };
-	}
+    public static InputFilter[] getFoteInputFilter() {
+	return new InputFilter[] { new DecimalDigitsInputFilter(6, 2) };
+    }
 }
