@@ -13,7 +13,7 @@
         android:layout_weight="25"
         android:gravity="center"
         android:text="@string/example_year"
-        android:textColor="@color/black"
+        android:textColor="@color/fote_dark"
         android:textSize="15sp" />
 
     <View
@@ -22,7 +22,7 @@
         android:layout_gravity="center_vertical"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
-        android:background="#FFCCCCCC" />
+        android:background="@color/fote_dark" />
 
     <TextView
         android:id="@+id/row_month_month"
@@ -32,7 +32,7 @@
         android:layout_weight="25"
         android:gravity="center"
         android:text="@string/example_month"
-        android:textColor="@color/black"
+        android:textColor="@color/fote_dark"
         android:textSize="15sp" />
 
 </LinearLayout>

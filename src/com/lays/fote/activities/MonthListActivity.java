@@ -38,7 +38,6 @@ public class MonthListActivity extends SherlockListActivity {
     public void onCreate(Bundle savedInstanceState) {
 	super.onCreate(savedInstanceState);
 	setContentView(R.layout.activity_month_list);
-	getSupportActionBar().hide();
 	getListView().setOnItemClickListener(listener);
 	initMonthList();
     }

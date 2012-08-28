@@ -10,4 +10,11 @@
         android:summary="@string/pref_sorting_default"
         android:title="@string/pref_sorting_label" />
 
+    <Preference android:title="About" >
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetClass="com.lays.fote.activities.AboutActivity"
+            android:targetPackage="com.lays.fote" />
+    </Preference>
+
 </PreferenceScreen>

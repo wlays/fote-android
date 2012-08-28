@@ -16,5 +16,6 @@
     <color name="blue">#0000FF</color>
     <color name="navy">#000080</color>
     <color name="black">#000000</color>
-    <color name="fote">#284B2B</color>
+    <color name="fote_dark">#284B2B</color>
+    <color name="fote_light">#DCDBBF</color>
 </resources>

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -50,7 +51,7 @@ public class FotingActivity extends SherlockFragmentActivity {
 	    foteDate = new FoteCalendar(year, month, day);
 	    date.setText(foteDate.getFullDate());
 	    // Log.i(TAG, "Full date: " + foteDate.getFullDate());
-	    // Log.i(TAG, "Timestamp saved: " + foteDate.getTimeInMillis());
+	    Log.i(TAG, "Timestamp saved: " + foteDate.getTimeInMillis());
 	}
     };
 
@@ -112,31 +113,26 @@ public class FotingActivity extends SherlockFragmentActivity {
 	    String total = amount.getText().toString();
 	    // check if string is empty
 	    if (total.equals("")) {
-		Toast.makeText(FotingActivity.this, "Amount can't be empty",
-			Toast.LENGTH_SHORT).show();
+		Toast.makeText(FotingActivity.this, "Amount can't be empty", Toast.LENGTH_SHORT).show();
 		return;
 	    }
 	    float foteAmount = Float.parseFloat(total);
 	    // check if amount is invalid like zero
 	    if (foteAmount == 0) {
-		Toast.makeText(FotingActivity.this, "Amount can't be zero",
-			Toast.LENGTH_SHORT).show();
+		Toast.makeText(FotingActivity.this, "Amount can't be zero", Toast.LENGTH_SHORT).show();
 		return;
 	    }
 
 	    String foteComment = comment.getText().toString();
 	    // check if string is empty
 	    if (foteComment.equals("")) {
-		Toast.makeText(FotingActivity.this,
-			"Description can't be empty", Toast.LENGTH_SHORT)
-			.show();
+		Toast.makeText(FotingActivity.this, "Description can't be empty", Toast.LENGTH_SHORT).show();
 		return;
 	    }
 
 	    // check if foteDate == null
 	    if (foteDate == null) {
-		Toast.makeText(FotingActivity.this, "Date isn't set",
-			Toast.LENGTH_SHORT).show();
+		Toast.makeText(FotingActivity.this, "Date isn't set", Toast.LENGTH_SHORT).show();
 		return;
 	    }
 

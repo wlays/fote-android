@@ -52,23 +52,29 @@
         <item name="android:titleTextStyle">@style/FoteTitle</item>
     </style>
     
-    <!-- A style resource for text labels in EditingFote and Foting Activity -->
+    <!-- A style resource for text labels in AboutActivity -->
+    <style name="FoteAbout">
+        <item name="android:textSize">18sp</item>
+		<item name="android:textColor">@color/fote_dark</item>
+    </style>
+    
+    <!-- A style resource for title labels in all Activities -->
     <style name="FoteTitle">
         <item name="android:textSize">22sp</item>
-		<item name="android:textColor">#DCDBBF</item>
+		<item name="android:textColor">@color/fote_light</item>
 		<item name="android:textStyle">bold</item>
     </style>
     
     <!-- A style resource for text labels in EditingFote and Foting Activity -->
     <style name="FoteLabel">
         <item name="android:textSize">25sp</item>
-		<item name="android:textColor">@color/fote</item>
+		<item name="android:textColor">@color/fote_dark</item>
     </style>
     
     <!-- A style resource for text fields in EditingFote and Foting Activity -->
     <style name="FoteText">
         <item name="android:textSize">20sp</item>
-		<item name="android:textColor">@color/white</item>
+		<item name="android:textColor">@color/fote_light</item>
 		<item name="android:textStyle">bold</item>
     </style>
     

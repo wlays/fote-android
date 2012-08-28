@@ -16,5 +16,8 @@
     <string name="fote_done">DONE</string>
     <string name="pref_sorting_label">Default Sorting Order</string>
 	<string name="pref_sorting_default">Most Recent</string>
+	<string name="about_email">fote.feedback@gmail.com</string>
+	<string name="about_text1">Email me at </string>
+	<string name="about_text2"> for any additional features you would like to see in future releases.</string>
 	
 </resources>

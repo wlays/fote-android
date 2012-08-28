@@ -2,34 +2,49 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="15dp" >
+    android:paddingBottom="8dp"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingTop="8dp" >
 
-    <Spinner
-        android:id="@+id/spinner"
-        android:layout_width="150dp"
-        android:layout_height="35dp"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:drawSelectorOnTop="true"
-        android:gravity="center" />
-
-    <TextView
-        android:id="@+id/current_month_year"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/wrapper"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:text="@string/example_month_year"
-        android:textColor="@color/black"
-        android:textSize="15sp" />
+        android:layout_marginBottom="3dp"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/current_month_year"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="16dp"
+            android:gravity="center"
+            android:singleLine="true"
+            android:text="@string/example_month_year"
+            android:textColor="@color/fote_dark"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <Spinner
+            android:id="@+id/spinner"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="100"
+            android:background="@drawable/bg_fote_button"
+            android:drawSelectorOnTop="true" />
+    </LinearLayout>
 
     <TextView
         android:id="@+id/total_spending_header"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/current_month_year"
+        android:layout_alignLeft="@+id/wrapper"
+        android:layout_below="@+id/wrapper"
         android:text="@string/total_spending_label"
-        android:textColor="@color/black"
-        android:textSize="15sp" />
+        android:textColor="@color/fote_dark"
+        android:textSize="17sp"
+        android:textStyle="bold" />
 
 </RelativeLayout>

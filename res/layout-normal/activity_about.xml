@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_activity"
+    android:paddingBottom="18dp"
+    android:paddingLeft="28dp"
+    android:paddingRight="28dp"
+    android:paddingTop="45dp" >
+
+    <TextView
+        android:id="@+id/about1"
+        style="@style/FoteAbout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="@string/about_text1" />
+
+    <TextView
+        android:id="@+id/about2"
+        style="@style/FoteAbout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/about1"
+        android:layout_centerInParent="true"
+        android:clickable="true"
+        android:onClick="composeEmail"
+        android:text="@string/about_email"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/about3"
+        style="@style/FoteAbout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/about2"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:text="@string/about_text2" />
+
+</RelativeLayout>

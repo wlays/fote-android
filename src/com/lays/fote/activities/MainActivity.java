@@ -121,7 +121,7 @@ public class MainActivity extends SherlockListActivity {
 	FoteCalendar now = new FoteCalendar();
 	mCurrentMonth = (new MonthDataSource(this)).findOrCreateMonthByMonthYear(now.getMonth(), now.getYear());
 	TextView monthYearView = (TextView) findViewById(R.id.current_month_year);
-	monthYearView.setText("Month: " + mCurrentMonth.getMonthName() + " " + mCurrentMonth.getYear());
+	monthYearView.setText(mCurrentMonth.getMonthName() + " " + mCurrentMonth.getYear());
     }
     
     private void initSpinner() {
@@ -130,7 +130,7 @@ public class MainActivity extends SherlockListActivity {
 	mSpinner.setOnItemSelectedListener(mSpinnerListener);
 	
 	mSortingOrders = getResources().getStringArray(R.array.sorting);
-	ArrayAdapter<String> aa = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, mSortingOrders);
+	ArrayAdapter<String> aa = new ArrayAdapter<String>(this, R.layout.custom_spinner_item, mSortingOrders);
 	aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 	mSpinner.setAdapter(aa);
 	
@@ -234,7 +234,7 @@ public class MainActivity extends SherlockListActivity {
 		long monthId = data.getLongExtra(MonthListActivity.MONTH_ID_KEY, 0);
 		mCurrentMonth = (new MonthDataSource(this)).getMonthById(monthId);
 		TextView monthYearView = (TextView) findViewById(R.id.current_month_year);
-		monthYearView.setText("Month: " + mCurrentMonth.getMonthName() + " " + mCurrentMonth.getYear());
+		monthYearView.setText(mCurrentMonth.getMonthName() + " " + mCurrentMonth.getYear());
 		// refresh the list
 		updateListViewAndTotalSpending();
             }
@@ -257,9 +257,9 @@ public class MainActivity extends SherlockListActivity {
 	case R.id.context_edit:
 	    editFote(info.position);
 	    return true;
-	case R.id.context_share:
-	    shareFote(info.position);
-	    return true;
+//	case R.id.context_share:
+//	    shareFote(info.position);
+//	    return true;
 	case R.id.context_delete:
 	    deleteFote(info.position);
 	    return true;

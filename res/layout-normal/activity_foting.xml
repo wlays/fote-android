@@ -97,7 +97,7 @@
         android:paddingRight="28dp"
         android:paddingTop="10dp"
         android:text="@string/fote_done"
-        android:textColor="@color/white"
+        android:textColor="@color/fote_light"
         android:textSize="28sp"
         android:textStyle="bold" />
 

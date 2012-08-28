@@ -62,6 +62,12 @@
             android:noHistory="true"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Fote" />
+        <activity
+            android:name=".activities.AboutActivity"
+            android:label="About"
+            android:noHistory="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Fote" />
     </application>
 
 </manifest>
