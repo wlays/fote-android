@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.widget.ListView;
 
 import com.actionbarsherlock.app.SherlockPreferenceActivity;
+import com.lays.fote.FoteApplication;
 import com.lays.fote.R;
 import com.lays.fote.fragments.SettingsFragment;
 
@@ -17,6 +18,7 @@ public class SettingsNewActivity extends SherlockPreferenceActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
 	super.onCreate(savedInstanceState);
+	FoteApplication.tracker.trackPageView("/SettingsNew");
 	setContentView(R.layout.activity_settings);
 	
 	// Retains the background while scrolling

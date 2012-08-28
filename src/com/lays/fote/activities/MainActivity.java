@@ -90,6 +90,9 @@ public class MainActivity extends SherlockListActivity {
     public void onCreate(Bundle savedInstanceState) {
 	super.onCreate(savedInstanceState);
 	
+	FoteApplication.tracker.startNewSession(FoteApplication.GOOGLE_ANALYTICS_TRACKING_ID, this);
+	FoteApplication.tracker.trackPageView("/Main");
+	
 	if (isScreenSizeLarge()) {
 	    // yes, we are large
 	    // TODO: put on the backburner...
@@ -107,9 +110,17 @@ public class MainActivity extends SherlockListActivity {
 	updateListViewAndTotalSpending();
     }
     
+    @Override
     public void onResume() {
 	super.onResume();
 	updateSortingOrder();
+    }
+    
+    @Override
+    protected void onDestroy() {
+      super.onDestroy();
+      // Stop the tracker when it is no longer needed.
+      FoteApplication.tracker.stopSession();
     }
     
     private boolean isScreenSizeLarge() {

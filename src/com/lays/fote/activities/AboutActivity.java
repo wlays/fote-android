@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.lays.fote.FoteApplication;
 import com.lays.fote.R;
 
 public class AboutActivity extends SherlockFragmentActivity {
@@ -13,6 +14,7 @@ public class AboutActivity extends SherlockFragmentActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
 	super.onCreate(savedInstanceState);
+	FoteApplication.tracker.trackPageView("/About");
 	setContentView(R.layout.activity_about);
     }
 

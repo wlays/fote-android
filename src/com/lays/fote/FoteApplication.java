@@ -8,6 +8,7 @@ import android.os.StrictMode;
 import android.text.InputFilter;
 import android.util.Log;
 
+import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 import com.lays.fote.database.Database;
 import com.lays.fote.utilities.DecimalDigitsInputFilter;
 
@@ -15,12 +16,15 @@ public class FoteApplication extends Application {
 
     private static final String TAG = FoteApplication.class.getSimpleName();
 
+    public static final String GOOGLE_ANALYTICS_TRACKING_ID = "UA-34406851-1";
+    public static final GoogleAnalyticsTracker tracker = GoogleAnalyticsTracker.getInstance();
+    
     public static final String FOTE_KEY = "fote_id";
     
     public static final String PREF_SORTING_KEY = "prefDefaultListSorting";
     public static String PREF_SORTING_DEFAULT_VALUE;
     
-    public static final boolean DEVELOPER_MODE = true;
+    public static final boolean DEVELOPER_MODE = false;
 
     public void onCreate() {
 	if (DEVELOPER_MODE) {

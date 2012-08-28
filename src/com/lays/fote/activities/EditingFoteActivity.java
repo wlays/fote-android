@@ -63,6 +63,7 @@ public class EditingFoteActivity extends SherlockFragmentActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
 	super.onCreate(savedInstanceState);
+	FoteApplication.tracker.trackPageView("/Edit");
 	setContentView(R.layout.activity_foting);
 
 	// Get Fote by id from database

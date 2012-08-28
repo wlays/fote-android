@@ -21,6 +21,7 @@ public class SettingsActivity extends SherlockPreferenceActivity implements OnSh
     @Override
     public void onCreate(Bundle savedInstanceState) {
 	super.onCreate(savedInstanceState);
+	FoteApplication.tracker.trackPageView("/SettingsOld");
 	addPreferencesFromResource(R.xml.preferences);
 	setContentView(R.layout.activity_settings);
 	mSharedPreferences = getPreferenceScreen().getSharedPreferences();

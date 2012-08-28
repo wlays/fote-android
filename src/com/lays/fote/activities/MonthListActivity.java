@@ -10,6 +10,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 
 import com.actionbarsherlock.app.SherlockListActivity;
+import com.lays.fote.FoteApplication;
 import com.lays.fote.R;
 import com.lays.fote.adapters.MonthListAdapter;
 import com.lays.fote.database.MonthDataSource;
@@ -37,6 +38,7 @@ public class MonthListActivity extends SherlockListActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
 	super.onCreate(savedInstanceState);
+	FoteApplication.tracker.trackPageView("/Months");
 	setContentView(R.layout.activity_month_list);
 	getListView().setOnItemClickListener(listener);
 	initMonthList();
