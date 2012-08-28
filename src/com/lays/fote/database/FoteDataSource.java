@@ -42,12 +42,13 @@ public class FoteDataSource {
      * @param date
      * @return long rowID or -1 if failed
      */
-    public void createFote(float amount, String comment, long date, long monthId) {
+    public void createFote(float amount, String comment, long date, String category, long monthId) {
 	open();
 	ContentValues cv = new ContentValues();
 	cv.put(Database.COLUMN_FOTE_AMOUNT, amount);
 	cv.put(Database.COLUMN_FOTE_COMMENT, comment);
 	cv.put(Database.COLUMN_FOTE_DATE, date);
+	cv.put(Database.COLUMN_FOTE_CATEGORY, category);
 	cv.put(Database.COLUMN_FOTE_MONTH_ID, monthId);
 	long success = database.insert(Database.TABLE_FOTE, null, cv);
 	// Log.i(TAG, "Newly inserted row ID (-1 if error occurred): " +
@@ -61,6 +62,7 @@ public class FoteDataSource {
 	values.put(Database.COLUMN_FOTE_AMOUNT, fote.getAmount());
 	values.put(Database.COLUMN_FOTE_COMMENT, fote.getComment());
 	values.put(Database.COLUMN_FOTE_DATE, fote.getDate());
+	values.put(Database.COLUMN_FOTE_CATEGORY, fote.getCategory());
 	values.put(Database.COLUMN_FOTE_MONTH_ID, fote.getMonthId());
 	int numOfRowAffected = database.update(Database.TABLE_FOTE, values,
 		Database.COLUMN_FOTE_ID + "=?",
@@ -72,8 +74,7 @@ public class FoteDataSource {
     public void deleteFote(Fote fote) {
 	open();
 	// Log.i(TAG, "Fote Deleted: " + fote.toString());
-	database.delete(Database.TABLE_FOTE, Database.COLUMN_FOTE_ID + " = "
-		+ fote.getId(), null);
+	database.delete(Database.TABLE_FOTE, Database.COLUMN_FOTE_ID + " = " + fote.getId(), null);
 	close();
     }
 
@@ -86,16 +87,12 @@ public class FoteDataSource {
 	open();
 	List<Fote> fotes = new ArrayList<Fote>();
 	Cursor result = database.query(Database.TABLE_FOTE, new String[] {
-		Database.COLUMN_FOTE_ID, Database.COLUMN_FOTE_AMOUNT,
-		Database.COLUMN_FOTE_COMMENT, Database.COLUMN_FOTE_DATE,
-		Database.COLUMN_FOTE_MONTH_ID }, Database.COLUMN_FOTE_MONTH_ID
-		+ " = ?", new String[] { Long.toString(monthId) }, null, null,
-		Database.COLUMN_FOTE_DATE);
+		Database.COLUMN_FOTE_ID, Database.COLUMN_FOTE_AMOUNT, Database.COLUMN_FOTE_COMMENT, Database.COLUMN_FOTE_DATE, Database.COLUMN_FOTE_CATEGORY, Database.COLUMN_FOTE_MONTH_ID }, 
+		Database.COLUMN_FOTE_MONTH_ID + "=?", 
+		new String[] { Long.toString(monthId) }, null, null, Database.COLUMN_FOTE_DATE);
 	if (result.moveToFirst()) {
 	    while (!result.isAfterLast()) {
-		Fote fote = new Fote(result.getLong(0), result.getFloat(1),
-			result.getString(2), result.getLong(3),
-			result.getLong(4));
+		Fote fote = new Fote(result.getLong(0), result.getFloat(1), result.getString(2), result.getLong(3), result.getString(4), result.getLong(5));
 		// Log.i(TAG, fote.toString());
 		fotes.add(fote);
 		result.moveToNext();
@@ -110,16 +107,12 @@ public class FoteDataSource {
 	open();
 	List<Fote> fotes = new ArrayList<Fote>();
 	Cursor result = database.query(Database.TABLE_FOTE, new String[] {
-		Database.COLUMN_FOTE_ID, Database.COLUMN_FOTE_AMOUNT,
-		Database.COLUMN_FOTE_COMMENT, Database.COLUMN_FOTE_DATE,
-		Database.COLUMN_FOTE_MONTH_ID }, Database.COLUMN_FOTE_MONTH_ID
-		+ " = ?", new String[] { Long.toString(monthId) }, null, null,
-		Database.COLUMN_FOTE_AMOUNT);
+		Database.COLUMN_FOTE_ID, Database.COLUMN_FOTE_AMOUNT, Database.COLUMN_FOTE_COMMENT, Database.COLUMN_FOTE_DATE, Database.COLUMN_FOTE_CATEGORY, Database.COLUMN_FOTE_MONTH_ID }, 
+		Database.COLUMN_FOTE_MONTH_ID + "=?", 
+		new String[] { Long.toString(monthId) }, null, null, Database.COLUMN_FOTE_AMOUNT);
 	if (result.moveToFirst()) {
 	    while (!result.isAfterLast()) {
-		Fote fote = new Fote(result.getLong(0), result.getFloat(1),
-			result.getString(2), result.getLong(3),
-			result.getLong(4));
+		Fote fote = new Fote(result.getLong(0), result.getFloat(1), result.getString(2), result.getLong(3), result.getString(4), result.getLong(5));
 		// Log.i(TAG, fote.toString());
 		fotes.add(fote);
 		result.moveToNext();
@@ -134,14 +127,11 @@ public class FoteDataSource {
 	open();
 	Fote fote = null;
 	Cursor result = database.query(Database.TABLE_FOTE, new String[] {
-		Database.COLUMN_FOTE_ID, Database.COLUMN_FOTE_AMOUNT,
-		Database.COLUMN_FOTE_COMMENT, Database.COLUMN_FOTE_DATE,
-		Database.COLUMN_FOTE_MONTH_ID },
+		Database.COLUMN_FOTE_ID, Database.COLUMN_FOTE_AMOUNT, Database.COLUMN_FOTE_COMMENT, Database.COLUMN_FOTE_DATE, Database.COLUMN_FOTE_CATEGORY, Database.COLUMN_FOTE_MONTH_ID },
 		Database.COLUMN_FOTE_ID + "=?",
 		new String[] { String.valueOf(id) }, null, null, null);
 	if (result.moveToFirst()) {
-	    fote = new Fote(result.getLong(0), result.getFloat(1),
-		    result.getString(2), result.getLong(3), result.getLong(4));
+	    fote = new Fote(result.getLong(0), result.getFloat(1), result.getString(2), result.getLong(3), result.getString(4), result.getLong(5));
 	    // Log.i(TAG, fote.toString());
 	}
 	result.close();

@@ -1,7 +1,9 @@
 package com.lays.fote.activities;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.util.Log;
@@ -34,15 +36,19 @@ public class FotingActivity extends SherlockFragmentActivity {
 
     /** Class tag */
     private static final String TAG = FotingActivity.class.getSimpleName();
-
+    
     /** Associated views */
     private EditText amount;
     private EditText comment;
+    private Button category;
     private Button date;
     private Button done;
 
     /** Timestamp variable for listener */
     private FoteCalendar foteDate;
+    
+    /** Variable for chosen category */
+    private String categoryChosen = null;
 
     /** Listener for the DatePickerDialog in DatePickerFragment */
     private final DatePickerDialog.OnDateSetListener datePickerListener = new DatePickerDialog.OnDateSetListener() {
@@ -62,6 +68,7 @@ public class FotingActivity extends SherlockFragmentActivity {
 	amount = (EditText) findViewById(R.id.fote_amount);
 	amount.setFilters(FoteApplication.getFoteInputFilter());
 	comment = (EditText) findViewById(R.id.fote_comment);
+	category = (Button) findViewById(R.id.fote_category);
 	foteDate = null;
 	date = (Button) findViewById(R.id.fote_date);
 	done = (Button) findViewById(R.id.done);
@@ -93,6 +100,25 @@ public class FotingActivity extends SherlockFragmentActivity {
 	}
     }
 
+    /**
+     * Handles the onClick of R.id.fote_date Button
+     * 
+     * @param v
+     */
+    public void showCategoryDialog(View v) {
+	final CharSequence[] categories = getResources().getTextArray(R.array.categories);
+	AlertDialog.Builder builder = new AlertDialog.Builder(this);
+	builder.setTitle("Pick a categroy");
+	builder.setItems(categories, new DialogInterface.OnClickListener() {
+	    public void onClick(DialogInterface dialog, int position) {
+	        category.setText(categories[position]);
+	        categoryChosen = categories[position].toString();
+	    }
+	});
+	AlertDialog alert = builder.create();
+	alert.show();
+    }
+    
     /**
      * Handles the onClick of R.id.fote_date Button
      * 
@@ -130,6 +156,13 @@ public class FotingActivity extends SherlockFragmentActivity {
 		return;
 	    }
 
+	    String foteCategory = categoryChosen;
+	    // check if category is selected
+	    if (foteCategory == null || foteCategory.equals("")) {
+		Toast.makeText(FotingActivity.this, "A category must be selected", Toast.LENGTH_SHORT).show();
+		return;
+	    }
+	    
 	    // check if foteDate == null
 	    if (foteDate == null) {
 		Toast.makeText(FotingActivity.this, "Date isn't set", Toast.LENGTH_SHORT).show();
@@ -137,7 +170,7 @@ public class FotingActivity extends SherlockFragmentActivity {
 	    }
 
 	    Month date = (new MonthDataSource(FotingActivity.this)).findOrCreateMonthByMonthYear(foteDate.getMonth(), foteDate.getYear());
-	    (new FoteDataSource(FotingActivity.this)).createFote(foteAmount, foteComment, foteDate.getTimeInMillis(), date.getId());
+	    (new FoteDataSource(FotingActivity.this)).createFote(foteAmount, foteComment, foteDate.getTimeInMillis(), foteCategory, date.getId());
 	    FotingActivity.this.setResult(Activity.RESULT_OK);
 	    finish();
 	    overridePendingTransition(R.anim.slide_left_incoming, R.anim.slide_left_outgoing);

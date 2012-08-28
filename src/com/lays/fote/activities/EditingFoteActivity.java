@@ -31,16 +31,20 @@ public class EditingFoteActivity extends SherlockFragmentActivity {
 
     /** Class tag */
     private static final String TAG = EditingFoteActivity.class.getSimpleName();
-
+    
     /** Fote object */
     private Fote mFote;
 
     /** Associated views */
     private EditText amount;
     private EditText comment;
+    private Button category;
     private Button date;
     private Button save;
 
+    /** Variable for chosen category */
+    private String categoryChosen = null;
+    
     /** Timestamp variable for listener */
     private FoteCalendar foteDate;
     private FoteCalendar previousFoteDate;
@@ -80,6 +84,11 @@ public class EditingFoteActivity extends SherlockFragmentActivity {
 	date = (Button) findViewById(R.id.fote_date);
 	date.setText(foteDate.getFullDate());
 
+	// init category
+	category = (Button) findViewById(R.id.fote_category);
+	category.setText(mFote.getCategory());
+	categoryChosen = mFote.getCategory();
+	
 	// init save
 	save = (Button) findViewById(R.id.done);
 	save.setOnClickListener(saveClickListener);
@@ -116,6 +125,25 @@ public class EditingFoteActivity extends SherlockFragmentActivity {
      * 
      * @param v
      */
+    public void showCategoryDialog(View v) {
+	final CharSequence[] categories = getResources().getTextArray(R.array.categories);
+	AlertDialog.Builder builder = new AlertDialog.Builder(this);
+	builder.setTitle("Pick a categroy");
+	builder.setItems(categories, new DialogInterface.OnClickListener() {
+	    public void onClick(DialogInterface dialog, int position) {
+	        category.setText(categories[position]);
+	        categoryChosen = categories[position].toString();
+	    }
+	});
+	AlertDialog alert = builder.create();
+	alert.show();
+    }
+    
+    /**
+     * Handles the onClick of R.id.fote_date Button
+     * 
+     * @param v
+     */
     public void editDate(View v) {
 	DialogFragment newFragment = DatePickerFragment.newInstance(datePickerListener);
 	newFragment.show(getSupportFragmentManager(), DatePickerFragment.TAG);
@@ -131,24 +159,27 @@ public class EditingFoteActivity extends SherlockFragmentActivity {
 	    String total = amount.getText().toString();
 	    // check if string is empty
 	    if (total.equals("")) {
-		Toast.makeText(EditingFoteActivity.this,
-			"Amount can't be empty", Toast.LENGTH_SHORT).show();
+		Toast.makeText(EditingFoteActivity.this, "Amount can't be empty", Toast.LENGTH_SHORT).show();
 		return;
 	    }
 	    float foteAmount = Float.parseFloat(total);
 	    // check if amount is invalid like zero
 	    if (foteAmount == 0) {
-		Toast.makeText(EditingFoteActivity.this,
-			"Amount can't be zero", Toast.LENGTH_SHORT).show();
+		Toast.makeText(EditingFoteActivity.this, "Amount can't be zero", Toast.LENGTH_SHORT).show();
 		return;
 	    }
 
 	    String foteComment = comment.getText().toString();
 	    // check if string is empty
 	    if (foteComment.equals("")) {
-		Toast.makeText(EditingFoteActivity.this,
-			"Description can't be empty", Toast.LENGTH_SHORT)
-			.show();
+		Toast.makeText(EditingFoteActivity.this, "Description can't be empty", Toast.LENGTH_SHORT).show();
+		return;
+	    }
+	    
+	    String foteCategory = categoryChosen;
+	    // check if category is selected
+	    if (foteCategory == null || foteCategory.equals("")) {
+		Toast.makeText(EditingFoteActivity.this, "A category must be selected", Toast.LENGTH_SHORT).show();
 		return;
 	    }
 
@@ -162,6 +193,7 @@ public class EditingFoteActivity extends SherlockFragmentActivity {
 	    mFote.setAmount(foteAmount);
 	    mFote.setComment(foteComment);
 	    mFote.setDate(foteDate.getTimeInMillis());
+	    mFote.setCategory(foteCategory);
 	    Month date = (new MonthDataSource(EditingFoteActivity.this)).findOrCreateMonthByMonthYear(foteDate.getMonth(), foteDate.getYear());
 	    mFote.setMonthId(date.getId());
 	    (new FoteDataSource(EditingFoteActivity.this)).updateFote(mFote);

@@ -7,4 +7,28 @@
         <item>Least Expensive</item>
     </string-array>
     
+    <string-array name="categories">
+        <item>Auto/Transportation</item>
+        <item>Bills/Utilities</item>
+        <item>Business Services</item>
+        <item>Children</item>
+        <item>Education</item>
+        <item>Entertainment</item>
+        <item>Fees/Charges</item>
+        <item>Financial</item>
+        <item>Food/Dining</item>
+        <item>Gifts/Donations</item>
+        <item>Health/Fitness</item>
+        <item>Home</item>
+        <item>Investments</item>
+        <item>Loans</item>
+        <item>Miscellaneous</item>
+        <item>Personal Care</item>
+        <item>Pets</item>
+        <item>Shopping</item>
+        <item>Taxes</item>
+        <item>Transfer</item>
+        <item>Travel</item>
+    </string-array>
+    
 </resources>

@@ -10,6 +10,7 @@
     <string name="example_comment">Lorem ipsum dolor sit amet, consectetur</string>
     <string name="total_spending_label">Total Spending: </string>
     <string name="fote_amount_label">How Much?</string>
+    <string name="fote_category">Category</string>
     <string name="fote_comment_label">On What?</string>
     <string name="fote_date_label">When?</string>
     <string name="fote_date">DATE</string>

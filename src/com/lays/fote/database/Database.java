@@ -18,6 +18,7 @@ public class Database extends SQLiteOpenHelper {
 	public static final String COLUMN_FOTE_AMOUNT = "amount";
 	public static final String COLUMN_FOTE_COMMENT = "comment";
 	public static final String COLUMN_FOTE_DATE = "date";
+	public static final String COLUMN_FOTE_CATEGORY = "category";
 	public static final String COLUMN_FOTE_MONTH_ID = "month_id";
 
 	// MONTH TABLE
@@ -34,7 +35,7 @@ public class Database extends SQLiteOpenHelper {
 	@Override
 	public void onCreate(SQLiteDatabase db) {
 		Log.i(TAG, "Creating Fote Database...");
-		db.execSQL("CREATE TABLE " + TABLE_FOTE + " (" + COLUMN_FOTE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COLUMN_FOTE_AMOUNT + " INTEGER NOT NULL, " + COLUMN_FOTE_COMMENT + " TEXT NOT NULL, " + COLUMN_FOTE_DATE + " INTEGER NOT NULL, " + COLUMN_FOTE_MONTH_ID + " INTEGER NOT NULL);");
+		db.execSQL("CREATE TABLE " + TABLE_FOTE + " (" + COLUMN_FOTE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COLUMN_FOTE_AMOUNT + " INTEGER NOT NULL, " + COLUMN_FOTE_COMMENT + " TEXT NOT NULL, " + COLUMN_FOTE_DATE + " INTEGER NOT NULL, " + COLUMN_FOTE_CATEGORY + " TEXT NOT NULL, " + COLUMN_FOTE_MONTH_ID + " INTEGER NOT NULL);");
 		db.execSQL("CREATE TABLE " + TABLE_MONTH + " (" + COLUMN_MONTH_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COLUMN_MONTH_MONTH + " INTEGER NOT NULL, " + COLUMN_MONTH_YEAR + " INTEGER NOT NULL, " + COLUMN_MONTH_TIMESTAMP + " INTEGER NOT NULL);");
 	}
 

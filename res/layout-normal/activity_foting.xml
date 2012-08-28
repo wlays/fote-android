@@ -60,12 +60,28 @@
         android:padding="8dp"
         android:singleLine="true" />
 
+    <Button
+        android:id="@+id/fote_category"
+        style="@style/FoteText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/fote_comment"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="18dp"
+        android:background="@drawable/bg_fote_button"
+        android:onClick="showCategoryDialog"
+        android:paddingBottom="8dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingTop="8dp"
+        android:text="@string/fote_category" />
+
     <TextView
         android:id="@+id/fote_date_label"
         style="@style/FoteLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/fote_comment"
+        android:layout_below="@+id/fote_category"
         android:layout_centerHorizontal="true"
         android:text="@string/fote_date_label" />
 
