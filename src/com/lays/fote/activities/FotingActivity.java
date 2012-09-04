@@ -177,4 +177,8 @@ public class FotingActivity extends SherlockFragmentActivity {
 	    overridePendingTransition(R.anim.slide_left_incoming, R.anim.slide_left_outgoing);
 	}
     };
+    
+    public FoteCalendar getFoteDate() {
+	return foteDate;
+    }
 }
