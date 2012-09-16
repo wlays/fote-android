@@ -1,6 +1,6 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!-- Our main style for Lua application -->
+    <!-- Our main style for Fote application -->
     <!-- A style resources for the action bar -->
     <!-- A style resource for tabs in the action bar. -->
     <!-- A style resource for the thin bar that appears below the navigation tabs. -->
@@ -38,7 +38,7 @@
     </style>
     -->
     
-    <!-- Our main style for Lua application -->
+    <!-- Our main style for Fote application -->
     <style name="Theme.Fote" parent="Theme.Sherlock.Light.DarkActionBar">
         <item name="actionBarStyle">@style/Theme.Fote.ActionBar</item>
         <item name="android:actionBarStyle">@style/Theme.Fote.ActionBar</item>

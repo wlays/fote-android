@@ -64,7 +64,7 @@ public class FotingActivity extends SherlockFragmentActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
 	super.onCreate(savedInstanceState);
-	FoteApplication.tracker.trackPageView("/New");
+	// FoteApplication.tracker.trackPageView("/New");
 	setContentView(R.layout.activity_foting);
 	amount = (EditText) findViewById(R.id.fote_amount);
 	amount.setFilters(FoteApplication.getFoteInputFilter());
